@@ -53,7 +53,10 @@ LABEL_MAP  = {"not_fall": 0, "fall": 1}
 # ── Preprocessing ──────────────────────────────────────────────────────────────
 
 def pad_or_crop(seq: np.ndarray, target: int) -> np.ndarray:
-    """(T,V,C) → (target,V,C). Pad dengan nol atau crop dari tengah."""
+    """
+    (T,V,C) → (target,V,C).
+    Pad dengan nol jika kurang, crop dari tengah jika lebih.
+    """
     T = seq.shape[0]
     if T == target:
         return seq
@@ -182,10 +185,10 @@ def make_version(out_dir, train_s, val_s, max_frames, lmap_src,
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--skeleton_dir", default="../dataset/ntu_skeleton")
-    ap.add_argument("--out_dir",  default="../dataset/ntu_data")
-    ap.add_argument("--max_frames", type=int, default=150)
-    ap.add_argument("--val_split",  type=float, default=0.2)
-    ap.add_argument("--seed",       type=int, default=42)
+    ap.add_argument("--out_dir",      default="../dataset/ntu_data")
+    ap.add_argument("--max_frames",   type=int, default=150)
+    ap.add_argument("--val_split",    type=float, default=0.2)
+    ap.add_argument("--seed",         type=int, default=42)
     args = ap.parse_args()
 
     skel = Path(args.skeleton_dir)
@@ -193,6 +196,7 @@ def main():
     rng  = np.random.default_rng(args.seed)
 
     print(f"\nMembaca skeleton dari: {skel}")
+    print(f"Window size (max_frames): {args.max_frames} frame")
     all_s = collect_samples(skel)
     if not all_s:
         sys.exit(f"Tidak ada sampel! Pastikan {skel}/fall/ dan {skel}/not_fall/ ada.")
