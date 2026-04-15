@@ -1,0 +1,84 @@
+# config/fall_detection/balanced.yaml
+# Fall Detection — BlockGCN — VERSI BALANCED
+# Train: python main.py --config config/fall-detection/balanced.yaml
+
+work_dir: work_dir/fall_balanced
+phase: train
+seed: 1
+print_log: True
+save_score: True
+
+device: [0]
+
+model: model.BlockGCN.Model
+model_args:
+  num_class: 2
+  num_point: 17
+  num_person: 1
+  graph: graph.yolo.Graph
+  graph_args:
+    labeling_mode: spatial
+  in_channels: 3
+  drop_out: 0.3
+  adaptive: True
+  alpha: False
+
+weights: null
+ignore_weights: []
+
+loss: CrossEntropyLoss
+loss_args: {}
+
+optimizer: SGD
+base_lr: 0.01
+momentum: 0.9
+nesterov: True
+weight_decay: 0.0004
+lr_decay_rate: 0.1
+step: [40, 60]
+warm_up_epoch: 5
+
+num_epoch: 80
+start_epoch: 0
+batch_size: 8
+test_batch_size: 8
+
+log_interval: 20
+save_interval: 1
+save_epoch: 1
+eval_interval: 1
+show_topk: [1]
+
+feeder: feeders.feeder_yolo.Feeder
+num_worker: 0
+
+train_feeder_args:
+  data_path: dataset/ntu_data/balanced/joint/train_data.npy
+  label_path: dataset/ntu_data/balanced/joint/train_label.pkl
+  split: train
+  window_size: 150
+  p_interval: [0.5, 1.0]
+  random_move: True
+  random_shift: True
+  random_flip: True
+  random_speed: True
+  normalization: False
+  debug: False
+  use_mmap: False
+
+test_feeder_args:
+  data_path: dataset/ntu_data/balanced/joint/val_data.npy
+  label_path: dataset/ntu_data/balanced/joint/val_label.pkl
+  split: val
+  window_size: 150
+  p_interval: [1.0, 1.0]
+  random_move: False
+  random_shift: False
+  random_flip: False
+  random_speed: False
+  normalization: False
+  debug: False
+  use_mmap: False
+
+alpha: False
+
