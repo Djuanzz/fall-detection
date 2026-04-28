@@ -638,6 +638,18 @@ class Processor():
                     self.best_f1       = epoch_f1
                     self.best_f1_epoch = epoch + 1
 
+                # Selalu simpan kalau ini best accuracy baru,
+                # meskipun belum melewati save_epoch threshold.
+                if self.best_acc_epoch == (epoch + 1) and not save_model:
+                    state_dict = self.model.state_dict()
+                    weights = OrderedDict([
+                        [k.split('module.')[-1], v.cpu()]
+                        for k, v in state_dict.items()
+                    ])
+                    torch.save(weights,
+                               self.arg.model_saved_name + '-' + str(epoch + 1) +
+                               '-' + str(int(self.global_step)) + '.pt')
+
             pattern = os.path.join(
                 self.arg.work_dir,
                 'runs-' + str(self.best_acc_epoch) + '*')
