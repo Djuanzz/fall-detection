@@ -1,0 +1,115 @@
+# config/fall-detection/colab_balanced.yaml
+# Fall Detection — BlockGCN — VERSI COLAB (A100) — BALANCED
+# ─────────────────────────────────────────────────────────────────────
+# Konfigurasi ini MIRROR dari config original GitHub (balanced approach)
+# tapi tetap menggunakan:
+#   - feeder_yolo.py  (YOLO 17-joint, 1 person, format .npy+.pkl)
+#   - graph.yolo.Graph
+#   - augmentasi dari balanced.yaml project ini
+#
+# Original GitHub  → feeder_ntu, 25 joint, 2 person, window_size=64, batch=8
+# Project ini      → feeder_yolo, 17 joint, 1 person, window_size=150, batch=32
+#
+# Train: python main.py --config config/fall-detection/colab_balanced.yaml
+# Test : python main.py --config config/fall-detection/colab_balanced.yaml
+#          --phase test --weights /content/drive/MyDrive/Fall-Detection/work_dir/fall_balanced/runs-XX-XXXX.pt
+
+work_dir: /content/drive/MyDrive/Fall-Detection/work_dir/fall_balanced
+phase: train
+seed: 42
+print_log: True
+save_score: True
+
+# ── Device ────────────────────────────────────────────────────────────────────
+# A100 di Colab → device [0]
+device: [0]
+
+# ── Model ─────────────────────────────────────────────────────────────────────
+# Perbedaan dari original GitHub:
+#   original : num_point=25, num_person=2, graph=ntu_rgb_d, window_size=64
+#   project  : num_point=17, num_person=1, graph=yolo,      window_size=150
+model: model.BlockGCN.Model
+model_args:
+  num_class: 2
+  num_point: 17
+  num_person: 1
+  graph: graph.yolo.Graph
+  graph_args:
+    labeling_mode: spatial
+  in_channels: 3
+  drop_out: 0.3
+  adaptive: True
+  alpha: False
+
+weights: null
+ignore_weights: []
+
+# ── Loss ──────────────────────────────────────────────────────────────────────
+# Sama seperti original GitHub: CrossEntropyLoss tanpa class weight (balanced data)
+loss: CrossEntropyLoss
+loss_args: {}
+
+# ── Optimizer ─────────────────────────────────────────────────────────────────
+# Original GitHub: base_lr=0.001, step=[40,60], num_epoch=80
+# Project ini    : base_lr=0.1,   step=[50,70], num_epoch=90
+optimizer: SGD
+base_lr: 0.1
+momentum: 0.9
+nesterov: True
+weight_decay: 0.0004
+lr_decay_rate: 0.1
+step: [50, 70]
+warm_up_epoch: 5
+
+# ── Training ──────────────────────────────────────────────────────────────────
+# batch_size dinaikkan ke 32 untuk memanfaatkan VRAM A100 (40/80 GB)
+# Original GitHub: batch_size=8, num_worker=8
+num_epoch: 90
+start_epoch: 0
+batch_size: 32
+test_batch_size: 32
+
+log_interval: 20
+save_interval: 1
+save_epoch: 30
+eval_interval: 1
+show_topk: [1]
+
+# ── Feeder ────────────────────────────────────────────────────────────────────
+# Original GitHub menggunakan feeder_ntu dengan data NTU60_CS_binary_fall.npz
+# Project ini menggunakan feeder_yolo dengan data .npy + .pkl dari YOLO11-pose
+feeder: feeders.feeder_yolo.Feeder
+# num_worker: 2 di Colab (lebih dari 2 sering menyebabkan deadlock di Colab)
+num_worker: 2
+
+train_feeder_args:
+  data_path: /content/drive/MyDrive/Fall-Detection/dataset/ntu_data/balanced/joint/train_data.npy
+  label_path: /content/drive/MyDrive/Fall-Detection/dataset/ntu_data/balanced/joint/train_label.pkl
+  split: train
+  # window_size=150 (original GitHub: 64 — lihat penjelasan di bawah)
+  window_size: 150
+  p_interval: [0.5, 1.0]
+  random_move: True
+  random_shift: True
+  random_flip: True
+  random_speed: True
+  normalization: False
+  debug: False
+  use_mmap: True
+
+test_feeder_args:
+  data_path: /content/drive/MyDrive/Fall-Detection/dataset/ntu_data/balanced/joint/val_data.npy
+  label_path: /content/drive/MyDrive/Fall-Detection/dataset/ntu_data/balanced/joint/val_label.pkl
+  split: val
+  window_size: 150
+  p_interval: [1.0, 1.0]
+  random_move: False
+  random_shift: False
+  random_flip: False
+  random_speed: False
+  normalization: False
+  debug: False
+  use_mmap: True
+
+alpha: False
+
