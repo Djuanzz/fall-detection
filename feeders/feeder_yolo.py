@@ -1,12 +1,11 @@
 """
-feeders/fall_feeder.py
+feeders/feeder_yolo.py
 =======================
-DataLoader binary fall detection.
-Letakkan di: BlockGCN/feeders/fall_feeder.py
+DataLoader untuk binary fall detection berbasis skeleton YOLO11-pose.
 
-Return dari __getitem__: (data, label)
-  - data : torch.Tensor shape (C, T, V, M) = (3, window_size, 17, 1)
-  - label: int 0 atau 1
+Return dari __getitem__: (data tensor (C,T,V,M), label int)
+  - data : shape (3, window_size, 17, 1)  dtype float32
+  - label: 0 = not_fall, 1 = fall
 
 Format pkl yang didukung: (sample_names, labels)
 """
@@ -24,7 +23,7 @@ NUM_JOINTS = 17
 CHANNELS   = 3
 
 # Pasangan joint kiri-kanan untuk flip augmentasi (COCO format)
-FLIP_PAIRS = [(1,2),(3,4),(5,6),(7,8),(9,10),(11,12),(13,14),(15,16)]
+FLIP_PAIRS = [(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16)]
 
 
 class Feeder(Dataset):
@@ -39,19 +38,21 @@ class Feeder(Dataset):
         random_shift  = False,
         random_flip   = False,
         random_speed  = False,
+        random_noise  = False,
         normalization = False,
         debug         = False,
         use_mmap      = True,
     ):
         self.split       = split
         self.window_size = window_size
-        self.p_interval  = p_interval or [1.0, 1.0]
+        self.p_interval  = p_interval if p_interval is not None else [1.0, 1.0]
         self.is_train    = (split == "train")
 
         self.do_move  = random_move  and self.is_train
         self.do_shift = random_shift and self.is_train
         self.do_flip  = random_flip  and self.is_train
         self.do_speed = random_speed and self.is_train
+        self.do_noise = random_noise and self.is_train
         self.do_norm  = normalization
 
         with open(label_path, "rb") as f:
@@ -82,13 +83,12 @@ class Feeder(Dataset):
         return len(self.label)
 
     def __getitem__(self, idx):
-        """Return: (data tensor (C,T,V,M), label int)"""
-        x = np.array(self.data[idx], dtype=np.float32)
+        x = np.array(self.data[idx], dtype=np.float32)  # (C, T, V, M)
         y = int(self.label[idx])
 
         valid = self._count_valid_frames(x)
-        p     = random.uniform(self.p_interval[0], self.p_interval[1]) \
-                if self.is_train else self.p_interval[-1]
+        p     = (random.uniform(self.p_interval[0], self.p_interval[1])
+                 if self.is_train else self.p_interval[-1])
         crop  = max(1, int(valid * p))
         x     = self._temporal_crop(x, valid, crop)
 
@@ -96,48 +96,66 @@ class Feeder(Dataset):
         if self.do_move:  x = self._rotate_scale(x)
         if self.do_flip:  x = self._flip(x)
         if self.do_speed: x = self._speed_perturb(x)
+        if self.do_noise: x = self._add_noise(x)
         if self.do_norm:  x = self._normalize(x)
 
         return torch.tensor(x, dtype=torch.float32), y
 
+    # ── Valid frame counting ───────────────────────────────────────────────────
+
     def _count_valid_frames(self, x):
-        conf  = x[2, :, :, 0]
-        valid = (conf > 0).any(axis=1).sum()
-        return max(int(valid), 1)
+        """Count frames where at least one joint has nonzero confidence."""
+        conf  = x[2, :, :, 0]                 # (T, V)
+        valid = int((conf > 0).any(axis=1).sum())
+        return max(valid, 1)
+
+    # ── Temporal crop + interpolation to window_size ───────────────────────────
 
     def _temporal_crop(self, x, valid, length):
+        """
+        Randomly (train) or deterministically (val) select `length` consecutive
+        frames from the valid portion, then interpolate to window_size.
+        """
+        T        = x.shape[1]
+        length   = min(length, valid, T)
         max_start = max(0, valid - length)
+
         if self.is_train:
-            if random.random() < 0.7 and max_start > 0:
-                start = random.randint(max_start // 2, max_start)
-            else:
-                start = random.randint(0, max_start)
+            start = random.randint(0, max_start)
         else:
             start = max_start // 2
 
-        seg = x[:, start: start + length, :, :]
-        if seg.shape[1] != self.window_size:
-            idx = np.linspace(0, seg.shape[1] - 1, self.window_size, dtype=int)
-            seg = seg[:, idx, :, :]
-        return seg
+        seg = x[:, start: start + length, :, :]   # (C, length, V, M)
+
+        if seg.shape[1] == self.window_size:
+            return seg
+
+        # Temporal interpolation: linearly sample window_size indices from seg
+        idx = np.linspace(0, seg.shape[1] - 1, self.window_size, dtype=int)
+        return seg[:, idx, :, :]
+
+    # ── Augmentation ──────────────────────────────────────────────────────────
 
     def _shift(self, x):
+        """Random global translation of x,y coordinates."""
         x = x.copy()
-        x[0] += random.uniform(-0.1, 0.1)
-        x[1] += random.uniform(-0.1, 0.1)
+        x[0] += random.uniform(-0.15, 0.15)
+        x[1] += random.uniform(-0.15, 0.15)
         return x
 
     def _rotate_scale(self, x):
+        """Random 2-D rotation (±20°) and scale (0.85–1.15)."""
         x  = x.copy()
-        th = random.uniform(-0.25, 0.25)
-        sc = random.uniform(0.9, 1.1)
-        c, s  = np.cos(th), np.sin(th)
-        x0, x1 = x[0].copy(), x[1].copy()
+        th = random.uniform(-0.35, 0.35)   # ~±20 degrees
+        sc = random.uniform(0.85, 1.15)
+        c, s    = np.cos(th), np.sin(th)
+        x0, x1  = x[0].copy(), x[1].copy()
         x[0] = sc * (c * x0 - s * x1)
         x[1] = sc * (s * x0 + c * x1)
         return x
 
     def _flip(self, x):
+        """Horizontal flip with COCO joint pair swap (50% probability)."""
         if random.random() > 0.5:
             return x
         x = x.copy()
@@ -147,28 +165,40 @@ class Feeder(Dataset):
         return x
 
     def _speed_perturb(self, x):
+        """Random temporal speed change (0.75×–1.25×) via resampling."""
         C, T, V, M = x.shape
-        factor  = random.uniform(0.8, 1.2)
+        factor  = random.uniform(0.75, 1.25)
         new_len = max(1, int(T * factor))
         src_idx = np.linspace(0, T - 1, new_len, dtype=int)
         tgt_idx = np.linspace(0, new_len - 1, T, dtype=int)
         return x[:, src_idx, :, :][:, tgt_idx, :, :]
 
+    def _add_noise(self, x):
+        """Small Gaussian noise on x,y coordinates (sigma=0.01)."""
+        x = x.copy()
+        noise = np.random.normal(0, 0.01, x[:2].shape).astype(np.float32)
+        x[:2] += noise
+        return x
+
     def _normalize(self, x):
+        """Min-max normalise x,y to [-1, 1]. Confidence channel unchanged."""
         x = x.copy()
         for c in range(2):
             mn, mx = x[c].min(), x[c].max()
             if mx - mn > 1e-6:
-                x[c] = 2 * (x[c] - mn) / (mx - mn) - 1
+                x[c] = 2.0 * (x[c] - mn) / (mx - mn) - 1.0
         return x
 
+    # ── Utilities ─────────────────────────────────────────────────────────────
+
     def top_k(self, score, top_k):
-        """Dipanggil Processor saat eval. score: (N, num_class) numpy array."""
+        """Compute top-k accuracy. score: (N, num_class) numpy array."""
         rank = score.argsort()[:, ::-1]
         hit  = [l in rank[i, :top_k] for i, l in enumerate(self.label)]
         return sum(hit) / len(hit)
 
     def get_weighted_sampler(self):
+        """Return WeightedRandomSampler for balanced batch sampling."""
         cnt = Counter(self.label)
         sw  = [1.0 / cnt[l] for l in self.label]
         return WeightedRandomSampler(sw, len(sw), replacement=True)
