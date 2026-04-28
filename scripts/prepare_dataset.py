@@ -74,18 +74,25 @@ def to_tensor(seq: np.ndarray, target: int) -> np.ndarray:
 
 
 def build_bone(seq: np.ndarray) -> np.ndarray:
-    """Bone = selisih koordinat joint child - parent. (T,17,3)"""
-    PAIRS = [
-        (1,0),(2,0),(3,1),(4,2),
-        (5,0),(6,0),(5,6),
-        (7,5),(9,7),(8,6),(10,8),
-        (11,5),(12,6),(11,12),
-        (13,11),(15,13),(14,12),(16,14),
+    """
+    Bone = displacement vector from parent to child joint. (T,17,3)
+    Tree structure (each joint has exactly one parent, root=nose/joint-0):
+      Head  : 1←0, 2←0, 3←1, 4←2
+      Upper : 5←0, 6←0, 7←5, 8←6, 9←7, 10←8
+      Lower : 11←5, 12←6, 13←11, 14←12, 15←13, 16←14
+    Joint 0 (nose/root) has no parent → bone remains zero.
+    """
+    BONE_PAIRS = [
+        (1, 0), (2, 0), (3, 1), (4, 2),
+        (5, 0), (6, 0),
+        (7, 5), (8, 6), (9, 7), (10, 8),
+        (11, 5), (12, 6),
+        (13, 11), (14, 12), (15, 13), (16, 14),
     ]
     b = np.zeros_like(seq)
-    for c, p in PAIRS:
-        b[:, c, :2] = seq[:, c, :2] - seq[:, p, :2]
-        b[:, c, 2]  = np.minimum(seq[:, c, 2], seq[:, p, 2])
+    for child, parent in BONE_PAIRS:
+        b[:, child, :2] = seq[:, child, :2] - seq[:, parent, :2]
+        b[:, child, 2]  = np.minimum(seq[:, child, 2], seq[:, parent, 2])
     return b
 
 
