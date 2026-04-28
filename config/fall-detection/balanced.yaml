@@ -1,10 +1,14 @@
-# config/fall_detection/balanced.yaml
+# config/fall-detection/balanced.yaml
 # Fall Detection — BlockGCN — VERSI BALANCED
-# Train: python main.py --config config/fall-detection/balanced.yaml
+# Balanced: undersample not_fall supaya jumlah kelas seimbang
+#
+# Train : python main.py --config config/fall-detection/balanced.yaml
+# Test  : python main.py --config config/fall-detection/balanced.yaml
+#           --phase test --weights work_dir/fall_balanced/runs-XX-XXXX.pt
 
 work_dir: work_dir/fall_balanced
 phase: train
-seed: 1
+seed: 42
 print_log: True
 save_score: True
 
@@ -30,22 +34,22 @@ loss: CrossEntropyLoss
 loss_args: {}
 
 optimizer: SGD
-base_lr: 0.01
+base_lr: 0.1
 momentum: 0.9
 nesterov: True
 weight_decay: 0.0004
 lr_decay_rate: 0.1
-step: [40, 60]
+step: [50, 70]
 warm_up_epoch: 5
 
-num_epoch: 80
+num_epoch: 90
 start_epoch: 0
-batch_size: 8
-test_batch_size: 8
+batch_size: 16
+test_batch_size: 16
 
 log_interval: 20
 save_interval: 1
-save_epoch: 1
+save_epoch: 30
 eval_interval: 1
 show_topk: [1]
 
@@ -81,4 +85,3 @@ test_feeder_args:
   use_mmap: False
 
 alpha: False
-
