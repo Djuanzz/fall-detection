@@ -103,16 +103,19 @@ if platform.system() != 'Windows':
 
 
 def init_seed(seed):
-    """
-    [FIXED] Tambahkan guard untuk cuda — worker process tidak selalu punya GPU.
-    """
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
     torch.manual_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
     torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = True
+    torch.backends.cudnn.benchmark = False
+
+
+def worker_init_fn(worker_id):
+    """Per-worker seed so each DataLoader worker has independent RNG state."""
+    np.random.seed(worker_id)
+    random.seed(worker_id)
 
 
 def import_class(import_str):
@@ -199,26 +202,25 @@ class Processor():
         self.arg = arg
         self.save_arg()
 
-        # ── [FIXED] Validasi CUDA di awal ─────────────────────────────────────
-        if not torch.cuda.is_available():
-            raise RuntimeError(
-                "CUDA tidak tersedia! Pastikan:\n"
-                "  1. Driver GPU sudah terinstall (nvidia-smi)\n"
-                "  2. PyTorch versi GPU sudah diinstall (bukan CPU-only)\n"
-                "  3. Jalankan: python -c \"import torch; print(torch.cuda.is_available())\""
-            )
-
-        # Cek device yang diminta benar-benar ada
-        num_gpu = torch.cuda.device_count()
-        for d in (arg.device if isinstance(arg.device, list) else [arg.device]):
-            if d >= num_gpu:
+        # ── Validasi CUDA ──────────────────────────────────────────────────────
+        if torch.cuda.is_available():
+            num_gpu = torch.cuda.device_count()
+            for d in (arg.device if isinstance(arg.device, list) else [arg.device]):
+                if d >= num_gpu:
+                    raise RuntimeError(
+                        "Device cuda:{} tidak ada. GPU tersedia: {} buah (id 0..{})".format(
+                            d, num_gpu, num_gpu - 1))
+            print("GPU tersedia: {}".format(num_gpu))
+            for i in range(num_gpu):
+                print("  cuda:{} → {}".format(i, torch.cuda.get_device_name(i)))
+            self.use_cuda = True
+        else:
+            if arg.phase == 'train':
                 raise RuntimeError(
-                    "Device cuda:{} tidak ada. GPU yang tersedia: {} buah (id 0..{})".format(
-                        d, num_gpu, num_gpu - 1))
-
-        print("GPU tersedia: {}".format(num_gpu))
-        for i in range(num_gpu):
-            print("  cuda:{} → {}".format(i, torch.cuda.get_device_name(i)))
+                    "CUDA tidak tersedia! Training membutuhkan GPU.\n"
+                    "Pastikan PyTorch GPU dan driver NVIDIA sudah terinstall.")
+            print("[WARN] CUDA tidak tersedia — menjalankan di CPU (test/inference only)")
+            self.use_cuda = False
 
         if arg.phase == 'train':
             is_debug = arg.train_feeder_args.get('debug', False)
@@ -250,18 +252,20 @@ class Processor():
         self.lr = self.arg.base_lr
         self.best_acc = 0
         self.best_acc_epoch = 0
+        self.best_f1       = 0.0
+        self.best_f1_epoch = 0
 
-        # Pindahkan model dan loss ke GPU
-        self.model = self.model.cuda(self.output_device)
-        # [FIXED] Gunakan .to() yang handle semua jenis loss, bukan manual check
-        self.loss = move_loss_to_device(self.loss, self.output_device)
-
-        if type(self.arg.device) is list and len(self.arg.device) > 1:
-            self.model = nn.DataParallel(
-                self.model,
-                device_ids=self.arg.device,
-                output_device=self.output_device)
-            self.loss = move_loss_to_device(self.loss, self.output_device)
+        if self.use_cuda:
+            self.model = self.model.cuda(self.output_device)
+            self.loss   = move_loss_to_device(self.loss, self.output_device)
+            if type(self.arg.device) is list and len(self.arg.device) > 1:
+                self.model = nn.DataParallel(
+                    self.model,
+                    device_ids=self.arg.device,
+                    output_device=self.output_device)
+                self.loss = move_loss_to_device(self.loss, self.output_device)
+        else:
+            self.output_device = 'cpu'
 
     # ── Load data ──────────────────────────────────────────────────────────────
 
@@ -271,20 +275,21 @@ class Processor():
 
         num_worker = self.arg.num_worker
 
+        use_pin = self.use_cuda
+
         if self.arg.phase == 'train':
             train_dataset = Feeder(**self.arg.train_feeder_args)
             loader_kwargs = dict(
                 dataset=train_dataset,
                 batch_size=self.arg.batch_size,
                 shuffle=True,
-                # [FIXED] pin_memory hanya aktif kalau CUDA tersedia
-                pin_memory=torch.cuda.is_available(),
+                pin_memory=use_pin,
                 num_workers=num_worker,
                 drop_last=True,
-                worker_init_fn=init_seed,
+                worker_init_fn=worker_init_fn,
             )
             if num_worker > 0:
-                loader_kwargs['prefetch_factor'] = 4
+                loader_kwargs['prefetch_factor'] = 2
             self.data_loader['train'] = torch.utils.data.DataLoader(**loader_kwargs)
 
         test_dataset = Feeder(**self.arg.test_feeder_args)
@@ -292,20 +297,23 @@ class Processor():
             dataset=test_dataset,
             batch_size=self.arg.test_batch_size,
             shuffle=False,
-            pin_memory=torch.cuda.is_available(),
+            pin_memory=use_pin,
             num_workers=num_worker,
             drop_last=False,
-            worker_init_fn=init_seed,
+            worker_init_fn=worker_init_fn,
         )
         if num_worker > 0:
-            test_kwargs['prefetch_factor'] = 4
+            test_kwargs['prefetch_factor'] = 2
         self.data_loader['test'] = torch.utils.data.DataLoader(**test_kwargs)
 
     # ── Load model ─────────────────────────────────────────────────────────────
 
     def load_model(self):
-        output_device = self.arg.device[0] if type(self.arg.device) is list \
-                        else self.arg.device
+        if torch.cuda.is_available():
+            output_device = self.arg.device[0] if type(self.arg.device) is list \
+                            else self.arg.device
+        else:
+            output_device = 'cpu'
         self.output_device = output_device
 
         Model = import_class(self.arg.model)
@@ -318,16 +326,18 @@ class Processor():
         self.loss = build_loss(self.arg.loss, self.arg.loss_args)
 
         if self.arg.weights:
-            self.global_step = int(self.arg.weights[:-3].split('-')[-1])
             self.print_log('Load weights dari {}.'.format(self.arg.weights))
+            map_loc = ('cuda:{}'.format(output_device)
+                       if torch.cuda.is_available() else 'cpu')
             if '.pkl' in self.arg.weights:
-                with open(self.arg.weights, 'r') as f:
+                with open(self.arg.weights, 'rb') as f:
                     weights = pickle.load(f)
             else:
-                weights = torch.load(self.arg.weights)
+                weights = torch.load(self.arg.weights, map_location=map_loc,
+                                     weights_only=False)
 
             weights = OrderedDict([
-                [k.split('module.')[-1], v.cuda(output_device)]
+                [k.split('module.')[-1], v]
                 for k, v in weights.items()
             ])
 
@@ -430,21 +440,20 @@ class Processor():
         timer = dict(dataloader=0.001, model=0.001, statistics=0.001)
         process = tqdm(loader, ncols=40)
 
-        # ── [FIXED] Gunakan API baru torch.amp (bukan torch.cuda.amp) ─────────
-        # torch.cuda.amp.GradScaler dan autocast sudah deprecated di PyTorch 2.x
-        use_amp = True
-        scaler = torch.amp.GradScaler('cuda', enabled=use_amp)
+        use_amp = self.use_cuda
+        amp_device = 'cuda' if self.use_cuda else 'cpu'
+        scaler = torch.amp.GradScaler(amp_device, enabled=use_amp)
 
         for batch_idx, (data, label) in enumerate(process):
             self.global_step += 1
 
             with torch.no_grad():
-                data  = data.float().cuda(self.output_device)
-                label = label.long().cuda(self.output_device)
+                data  = data.float().to(self.output_device)
+                label = label.long().to(self.output_device)
             timer['dataloader'] += self.split_time()
 
-            # ── [FIXED] Gunakan torch.amp.autocast bukan torch.cuda.amp.autocast
-            with torch.amp.autocast('cuda', enabled=use_amp):
+            amp_device = 'cuda' if self.use_cuda else 'cpu'
+            with torch.amp.autocast(amp_device, enabled=use_amp):
                 output = self.model(data)
                 loss   = self.loss(output, label)
 
@@ -500,6 +509,7 @@ class Processor():
 
         self.model.eval()
         self.print_log('Eval epoch: {}'.format(epoch + 1))
+        best_f1_this_eval = 0.0
 
         for ln in loader_name:
             loss_value  = []
@@ -513,8 +523,8 @@ class Processor():
             for batch_idx, (data, label) in enumerate(process):
                 label_list.append(label)
                 with torch.no_grad():
-                    data  = data.float().cuda(self.output_device)
-                    label = label.long().cuda(self.output_device)
+                    data  = data.float().to(self.output_device)
+                    label = label.long().to(self.output_device)
 
                     output = self.model(data)
                     loss   = self.loss(output, label)
@@ -577,12 +587,18 @@ class Processor():
                 tn, fp, fn, tp = confusion.ravel()
                 prec   = tp / max(tp + fp, 1)
                 rec    = tp / max(tp + fn, 1)
+                spec   = tn / max(tn + fp, 1)
                 f1     = 2 * prec * rec / max(prec + rec, 1e-9)
+                best_f1_this_eval = max(best_f1_this_eval, f1)
                 self.print_log(
-                    '\tConfusion: TN={} FP={} FN={} TP={} | '
-                    'Prec={:.2f}% Recall={:.2f}% F1={:.2f}%'.format(
+                    '\tTN={} FP={} FN={} TP={} | '
+                    'Prec={:.2f}% Rec={:.2f}% Spec={:.2f}% F1={:.2f}%'.format(
                         tn, fp, fn, tp,
-                        prec * 100, rec * 100, f1 * 100))
+                        prec * 100, rec * 100, spec * 100, f1 * 100))
+                if self.arg.phase == 'train':
+                    self.val_writer.add_scalar('precision', prec,  self.global_step)
+                    self.val_writer.add_scalar('recall',    rec,   self.global_step)
+                    self.val_writer.add_scalar('f1',        f1,    self.global_step)
 
             with open('{}/epoch{}_{}_each_class_acc.csv'.format(
                     self.arg.work_dir, epoch + 1, ln), 'w') as f:
@@ -594,15 +610,15 @@ class Processor():
             f_w.close()
         if f_r is not None:
             f_r.close()
+        return best_f1_this_eval
 
     # ── Start ──────────────────────────────────────────────────────────────────
 
     def start(self):
         if self.arg.phase == 'train':
             self.print_log('Parameters:\n{}\n'.format(str(vars(self.arg))))
-            self.global_step = (self.arg.start_epoch *
-                                len(self.data_loader['train']) /
-                                self.arg.batch_size)
+            self.global_step = int(self.arg.start_epoch *
+                                   len(self.data_loader['train']))
 
             num_params = sum(p.numel() for p in self.model.parameters()
                              if p.requires_grad)
@@ -615,9 +631,12 @@ class Processor():
                 ) and (epoch + 1) > self.arg.save_epoch
 
                 self.train(epoch, save_model=save_model)
-                self.eval(epoch,
-                          save_score=self.arg.save_score,
-                          loader_name=['test'])
+                epoch_f1 = self.eval(epoch,
+                                     save_score=self.arg.save_score,
+                                     loader_name=['test'])
+                if epoch_f1 > self.best_f1:
+                    self.best_f1       = epoch_f1
+                    self.best_f1_epoch = epoch + 1
 
             pattern = os.path.join(
                 self.arg.work_dir,
@@ -625,10 +644,13 @@ class Processor():
             best_files = glob.glob(pattern)
             if best_files:
                 weights_path = best_files[0]
-                weights = torch.load(weights_path)
+                weights = torch.load(weights_path,
+                                     map_location=('cuda:{}'.format(self.output_device)
+                                                   if self.use_cuda else 'cpu'),
+                                     weights_only=False)
                 if type(self.arg.device) is list and len(self.arg.device) > 1:
                     weights = OrderedDict([
-                        ['module.' + k, v.cuda(self.output_device)]
+                        ['module.' + k, v.to(self.output_device)]
                         for k, v in weights.items()
                     ])
                 self.model.load_state_dict(weights)
@@ -641,8 +663,10 @@ class Processor():
                           wrong_file=wf, result_file=rf)
                 self.arg.print_log = True
 
-            self.print_log('Best accuracy: {}'.format(self.best_acc))
-            self.print_log('Best epoch   : {}'.format(self.best_acc_epoch))
+            self.print_log('Best accuracy: {:.4f}  (epoch {})'.format(
+                self.best_acc, self.best_acc_epoch))
+            self.print_log('Best F1      : {:.4f}  (epoch {})'.format(
+                self.best_f1, self.best_f1_epoch))
             self.print_log('Work dir     : {}'.format(self.arg.work_dir))
             self.print_log('Params       : {}'.format(num_params))
             self.print_log('Weight decay : {}'.format(self.arg.weight_decay))
