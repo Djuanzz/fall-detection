@@ -1,15 +1,16 @@
 """
-model/blockgcn.py  — VERSI CUSTOM FALL DETECTION
-==================================================
-Disesuaikan untuk:
-  - num_person = 1  (single person)
-  - num_point  = 17 (COCO keypoints dari YOLO11n-pose)
+model/BlockGCN.py  — Fall Detection (BlockGCN, adapted for YOLO 17-joint skeleton)
+=====================================================================================
+Architecture follows BlockGCN paper:
+  - 10 TCN-GCN blocks with multi-scale temporal convolution
+  - Relative positional encoding via k-hop distance in GCN
+  - Topological features (persistent homology) fused into every block
+Adaptations for fall detection:
+  - num_person = 1  (single person, YOLO11n-pose)
+  - num_point  = 17 (COCO keypoints)
   - num_class  = 2  (fall / not_fall)
-
-FIX dari versi sebelumnya:
-  - data_bn: num_person * 128 * num_point  (bukan in_channels * num_point)
-    Karena data_bn dipanggil SETELAH to_joint_embedding yang outputnya 128 dim.
-  - forward(x) — tidak perlu argumen y dan joint terpisah
+  - Joint embedding (Linear 3→128) + positional encoding before GCN blocks
+    data_bn applied after embedding → size = num_person * 128 * num_point
 """
 
 import math
@@ -136,9 +137,9 @@ class MultiScale_TemporalConv(nn.Module):
         ))
 
         if not residual:
-            self.residual = lambda x: 0
+            self.residual = None
         elif (in_channels == out_channels) and (stride == 1):
-            self.residual = lambda x: x
+            self.residual = nn.Identity()
         else:
             self.residual = TemporalConv(in_channels, out_channels,
                                          kernel_size=residual_kernel_size, stride=stride)
@@ -146,10 +147,10 @@ class MultiScale_TemporalConv(nn.Module):
         self.apply(weights_init)
 
     def forward(self, x):
-        res = self.residual(x)
+        res = self.residual(x) if self.residual is not None else 0
         branch_outs = [tempconv(x) for tempconv in self.branches]
         out = torch.cat(branch_outs, dim=1)
-        out += res
+        out = out + res
         return out
 
 
@@ -181,7 +182,7 @@ class unit_gcn(nn.Module):
                 nn.BatchNorm2d(out_channels)
             )
         else:
-            self.down = lambda x: x
+            self.down = nn.Identity()
 
         self.bn   = nn.BatchNorm2d(out_channels)
         self.relu = nn.ReLU(inplace=True)
@@ -267,15 +268,16 @@ class TCN_GCN_unit(nn.Module):
         self.relu = nn.ReLU(inplace=True)
 
         if not residual:
-            self.residual = lambda x: 0
+            self.residual = None
         elif (in_channels == out_channels) and (stride == 1):
-            self.residual = lambda x: x
+            self.residual = nn.Identity()
         else:
             self.residual = unit_tcn(in_channels, out_channels,
                                      kernel_size=1, stride=stride)
 
     def forward(self, x):
-        return self.relu(self.tcn1(self.gcn1(x)) + self.residual(x))
+        res = self.residual(x) if self.residual is not None else 0
+        return self.relu(self.tcn1(self.gcn1(x)) + res)
 
 
 # ── Topological Encoding ───────────────────────────────────────────────────────
@@ -404,7 +406,7 @@ class Model(nn.Module):
         nn.init.normal_(self.fc.weight, 0, math.sqrt(2. / num_class))
         bn_init(self.data_bn, 1)
 
-        self.drop_out = nn.Dropout(drop_out) if drop_out else lambda x: x
+        self.drop_out = nn.Dropout(p=drop_out) if drop_out > 0 else nn.Identity()
 
     def forward(self, x):
         """
