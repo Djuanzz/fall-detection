@@ -10,14 +10,14 @@
   "max_frames": 150,
   "num_person": 1,
   "train": {
-    "total": 240,
-    "not_fall": 120,
-    "fall": 120
+    "total": 1146,
+    "not_fall": 573,
+    "fall": 573
   },
   "val": {
-    "total": 150,
-    "not_fall": 120,
-    "fall": 30
+    "total": 738,
+    "not_fall": 595,
+    "fall": 143
   },
   "pos_weight": 1.0,
   "class_weight_for_config": [
