@@ -1,19 +1,18 @@
-# config/fall_detection/full.yaml
-# ==================================
+# config/fall-detection/full.yaml
 # Fall Detection — BlockGCN — VERSI FULL + CLASS WEIGHT
-# Semua data dipakai, ketidakseimbangan diatasi lewat loss weight
+# Semua data dipakai, ketidakseimbangan kelas diatasi lewat loss weight.
 #
-# WAJIB: Cek dataset_info.json lalu update loss_args.weight:
-#   Windows: type dataset\ntu_data\full\joint\dataset_info.json
-#   Lihat "class_weight_for_config" → masukkan nilainya ke weight di bawah
+# WAJIB: Jalankan prepare_dataset.py terlebih dahulu, lalu cek:
+#   dataset/ntu_data/full/joint/dataset_info.json → field "class_weight_for_config"
+#   Masukkan nilainya ke loss_args.weight di bawah (contoh: [1.0, 4.0]).
 #
-# Train: python main.py --config config/fall_detection/full.yaml
-# Test : python main.py --config config/fall_detection/full.yaml
-#          --phase test --weights work_dir/fall_full/runs-XX-XXXX.pt
+# Train : python main.py --config config/fall-detection/full.yaml
+# Test  : python main.py --config config/fall-detection/full.yaml
+#           --phase test --weights work_dir/fall_full/runs-XX-XXXX.pt
 
 work_dir: work_dir/fall_full
 phase: train
-seed: 1
+seed: 42
 print_log: True
 save_score: True
 
@@ -28,14 +27,14 @@ model_args:
   graph_args:
     labeling_mode: spatial
   in_channels: 3
-  drop_out: 0
+  drop_out: 0.3
   adaptive: True
   alpha: False
 
 weights: null
 ignore_weights: []
 
-# Update angka [1.0, X] dari field "class_weight_for_config" di dataset_info.json
+# Update [1.0, X] dari dataset_info.json → "class_weight_for_config"
 loss: CrossEntropyLoss
 loss_args:
   weight: [1.0, 4.0]
@@ -46,28 +45,28 @@ momentum: 0.9
 nesterov: True
 weight_decay: 0.0004
 lr_decay_rate: 0.1
-step: [35, 55]
+step: [50, 70]
 warm_up_epoch: 5
 
-num_epoch: 65
+num_epoch: 90
 start_epoch: 0
 batch_size: 16
 test_batch_size: 16
 
-log_interval: 100
-save_interval: 5
-save_epoch: 10
+log_interval: 20
+save_interval: 1
+save_epoch: 30
 eval_interval: 1
 show_topk: [1]
 
 feeder: feeders.feeder_yolo.Feeder
-num_worker: 4
+num_worker: 0
 
 train_feeder_args:
   data_path: dataset/ntu_data/full/joint/train_data.npy
   label_path: dataset/ntu_data/full/joint/train_label.pkl
   split: train
-  window_size: 30
+  window_size: 150
   p_interval: [0.5, 1.0]
   random_move: True
   random_shift: True
@@ -75,21 +74,20 @@ train_feeder_args:
   random_speed: True
   normalization: False
   debug: False
-  use_mmap: True
+  use_mmap: False
 
 test_feeder_args:
   data_path: dataset/ntu_data/full/joint/val_data.npy
   label_path: dataset/ntu_data/full/joint/val_label.pkl
   split: val
-  window_size: 30
-  p_interval: [0.95, 1.0]
+  window_size: 150
+  p_interval: [1.0, 1.0]
   random_move: False
   random_shift: False
   random_flip: False
   random_speed: False
   normalization: False
   debug: False
-  use_mmap: True
+  use_mmap: False
 
 alpha: False
-
