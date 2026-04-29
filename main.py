@@ -10,7 +10,8 @@ import sys
 import time
 from collections import OrderedDict
 import traceback
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import (confusion_matrix, classification_report,
+                             balanced_accuracy_score, roc_auc_score)
 import csv
 import numpy as np
 import glob
@@ -590,15 +591,31 @@ class Processor():
                 spec   = tn / max(tn + fp, 1)
                 f1     = 2 * prec * rec / max(prec + rec, 1e-9)
                 best_f1_this_eval = max(best_f1_this_eval, f1)
-                self.print_log(
-                    '\tTN={} FP={} FN={} TP={} | '
-                    'Prec={:.2f}% Rec={:.2f}% Spec={:.2f}% F1={:.2f}%'.format(
-                        tn, fp, fn, tp,
-                        prec * 100, rec * 100, spec * 100, f1 * 100))
+
+                bal_acc = balanced_accuracy_score(label_list, pred_list)
+                score_prob = score[:, 1]  # probabilitas kelas fall
+                try:
+                    auc = roc_auc_score(label_list, score_prob)
+                except ValueError:
+                    auc = float('nan')
+
+                report = classification_report(
+                    label_list, pred_list,
+                    target_names=['non-fall', 'fall'], digits=2)
+                self.print_log('\n  Classification Report ({}):\n{}'.format(ln, report))
+                self.print_log('\tBalanced Accuracy: {:.2f}%'.format(bal_acc * 100))
+                self.print_log('\tSensitivity (Fall Recall)    : {:.2f}%'.format(rec  * 100))
+                self.print_log('\tSpecificity (Non-Fall Recall): {:.2f}%'.format(spec * 100))
+                self.print_log('\tTP={:4d}  TN={:4d}  FP={:4d}  FN={:4d}'.format(
+                    int(tp), int(tn), int(fp), int(fn)))
+                self.print_log('\tAUC-ROC: {:.4f}'.format(auc))
+
                 if self.arg.phase == 'train':
-                    self.val_writer.add_scalar('precision', prec,  self.global_step)
-                    self.val_writer.add_scalar('recall',    rec,   self.global_step)
-                    self.val_writer.add_scalar('f1',        f1,    self.global_step)
+                    self.val_writer.add_scalar('precision',        prec,    self.global_step)
+                    self.val_writer.add_scalar('recall',           rec,     self.global_step)
+                    self.val_writer.add_scalar('f1',               f1,      self.global_step)
+                    self.val_writer.add_scalar('balanced_acc',     bal_acc, self.global_step)
+                    self.val_writer.add_scalar('auc_roc',          auc,     self.global_step)
 
             with open('{}/epoch{}_{}_each_class_acc.csv'.format(
                     self.arg.work_dir, epoch + 1, ln), 'w') as f:
