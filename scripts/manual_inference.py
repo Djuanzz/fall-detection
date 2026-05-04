@@ -32,7 +32,7 @@ ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
 # ── Default — sesuaikan ────────────────────────────────────────────────────────
-DEFAULT_INPUT   = "../dataset/ntu_skeleton/not_fall/S013C003P027R002A008_rgb.npy"
+DEFAULT_INPUT   = "../dataset/ntu_skeleton/fall/S001C001P003R002A043_rgb.npy"
 DEFAULT_WEIGHTS = "../weights/8/runs-43-6149.pt"
 DEFAULT_CONFIG  = "../config/fall-detection/balanced.yaml"
 
