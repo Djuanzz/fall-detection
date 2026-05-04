@@ -38,9 +38,13 @@ import yaml
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
-# ── Default konfigurasi ────────────────────────────────────────────────────────
-DEFAULT_WEIGHTS   = "../weights/10/runs-23-3289.pt"
-DEFAULT_CONFIG    = "../config/fall-detection/balanced.yaml"
+# # ── Default konfigurasi BALANCED ────────────────────────────────────────────────────────
+DEFAULT_WEIGHTS   = "../work_dir/fall_yolo17_balanced/runs-35-6265.pt"
+DEFAULT_CONFIG    = "../config/fall-detection-yolo/balanced.yaml"
+
+# ── Default konfigurasi FULL ────────────────────────────────────────────────────────
+# DEFAULT_WEIGHTS   = "../weights/12/runs-9-3312.pt"
+# DEFAULT_CONFIG    = "../config/fall-detection/full.yaml"
 DEFAULT_YOLO      = "yolo11n-pose.pt"
 DEFAULT_THRESHOLD = 0.5
 DEFAULT_WINDOW    = 30       # frame yang dilihat model sekaligus
