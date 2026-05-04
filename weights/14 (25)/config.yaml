@@ -1,0 +1,82 @@
+# command line: main.py --config config/fall-detection-ntu/balanced.yaml --work-dir work_dir/fall_ntu25_balanced --device 0
+
+alpha: false
+base_lr: 0.1
+batch_size: 8
+config: config/fall-detection-ntu/balanced.yaml
+device:
+- 0
+eval_interval: 1
+feeder: feeders.feeder_ntu_binary.Feeder
+ignore_weights: []
+log_interval: 20
+loss: CrossEntropyLoss
+loss_args: {}
+lr_decay_rate: 0.1
+model: model.BlockGCN.Model
+model_args:
+  adaptive: true
+  alpha: false
+  drop_out: 0.3
+  graph: graph.ntu_rgb_d.Graph
+  graph_args:
+    labeling_mode: spatial
+  in_channels: 3
+  num_class: 2
+  num_person: 1
+  num_point: 25
+model_saved_name: ''
+momentum: 0.9
+nesterov: true
+num_epoch: 90
+num_worker: 0
+optimizer: SGD
+phase: train
+print_log: true
+save_epoch: 30
+save_interval: 1
+save_score: true
+seed: 42
+show_topk:
+- 1
+start_epoch: 0
+step:
+- 50
+- 70
+test_batch_size: 8
+test_feeder_args:
+  data_path: dataset/ntu25_data/balanced/joint/val_data.npy
+  debug: false
+  label_path: dataset/ntu25_data/balanced/joint/val_label.pkl
+  normalization: false
+  p_interval:
+  - 1.0
+  - 1.0
+  random_flip: false
+  random_move: false
+  random_noise: false
+  random_shift: false
+  random_speed: false
+  split: val
+  use_mmap: false
+  window_size: 150
+train_feeder_args:
+  data_path: dataset/ntu25_data/balanced/joint/train_data.npy
+  debug: false
+  label_path: dataset/ntu25_data/balanced/joint/train_label.pkl
+  normalization: false
+  p_interval:
+  - 0.5
+  - 1.0
+  random_flip: true
+  random_move: true
+  random_noise: false
+  random_shift: true
+  random_speed: true
+  split: train
+  use_mmap: false
+  window_size: 150
+warm_up_epoch: 5
+weight_decay: 0.0004
+weights: null
+work_dir: work_dir/fall_ntu25_balanced

@@ -1,0 +1,2000 @@
+[ Sun May  3 04:32:53 2026 ] Warm up epoch: 5
+[ Sun May  3 04:35:07 2026 ] Warm up epoch: 5
+[ Sun May  3 04:35:08 2026 ] Parameters:
+{'work_dir': 'work_dir/fall_ntu25_balanced', 'model_saved_name': 'work_dir/fall_ntu25_balanced\\runs', 'config': 'config/fall-detection-ntu/balanced.yaml', 'phase': 'train', 'save_score': True, 'seed': 42, 'log_interval': 20, 'save_interval': 1, 'save_epoch': 30, 'eval_interval': 1, 'print_log': True, 'show_topk': [1], 'feeder': 'feeders.feeder_ntu_binary.Feeder', 'num_worker': 0, 'train_feeder_args': {'data_path': 'dataset/ntu25_data/balanced/joint/train_data.npy', 'label_path': 'dataset/ntu25_data/balanced/joint/train_label.pkl', 'split': 'train', 'window_size': 150, 'p_interval': [0.5, 1.0], 'random_move': True, 'random_shift': True, 'random_flip': True, 'random_speed': True, 'random_noise': False, 'normalization': False, 'debug': False, 'use_mmap': False}, 'test_feeder_args': {'data_path': 'dataset/ntu25_data/balanced/joint/val_data.npy', 'label_path': 'dataset/ntu25_data/balanced/joint/val_label.pkl', 'split': 'val', 'window_size': 150, 'p_interval': [1.0, 1.0], 'random_move': False, 'random_shift': False, 'random_flip': False, 'random_speed': False, 'random_noise': False, 'normalization': False, 'debug': False, 'use_mmap': False}, 'model': 'model.BlockGCN.Model', 'model_args': {'num_class': 2, 'num_point': 25, 'num_person': 1, 'graph': 'graph.ntu_rgb_d.Graph', 'graph_args': {'labeling_mode': 'spatial'}, 'in_channels': 3, 'drop_out': 0.3, 'adaptive': True, 'alpha': False}, 'weights': None, 'ignore_weights': [], 'loss': 'CrossEntropyLoss', 'loss_args': {}, 'base_lr': 0.1, 'step': [50, 70], 'device': [0], 'optimizer': 'SGD', 'nesterov': True, 'momentum': 0.9, 'batch_size': 16, 'test_batch_size': 16, 'start_epoch': 0, 'num_epoch': 90, 'weight_decay': 0.0004, 'lr_decay_rate': 0.1, 'warm_up_epoch': 5, 'alpha': False}
+
+[ Sun May  3 04:35:08 2026 ] # Parameters: 1351474
+[ Sun May  3 04:35:08 2026 ] Training epoch: 1
+[ Sun May  3 04:35:46 2026 ] Warm up epoch: 5
+[ Sun May  3 04:35:47 2026 ] Parameters:
+{'work_dir': 'work_dir/fall_ntu25_balanced', 'model_saved_name': 'work_dir/fall_ntu25_balanced\\runs', 'config': 'config/fall-detection-ntu/balanced.yaml', 'phase': 'train', 'save_score': True, 'seed': 42, 'log_interval': 20, 'save_interval': 1, 'save_epoch': 30, 'eval_interval': 1, 'print_log': True, 'show_topk': [1], 'feeder': 'feeders.feeder_ntu_binary.Feeder', 'num_worker': 0, 'train_feeder_args': {'data_path': 'dataset/ntu25_data/balanced/joint/train_data.npy', 'label_path': 'dataset/ntu25_data/balanced/joint/train_label.pkl', 'split': 'train', 'window_size': 150, 'p_interval': [0.5, 1.0], 'random_move': True, 'random_shift': True, 'random_flip': True, 'random_speed': True, 'random_noise': False, 'normalization': False, 'debug': False, 'use_mmap': False}, 'test_feeder_args': {'data_path': 'dataset/ntu25_data/balanced/joint/val_data.npy', 'label_path': 'dataset/ntu25_data/balanced/joint/val_label.pkl', 'split': 'val', 'window_size': 150, 'p_interval': [1.0, 1.0], 'random_move': False, 'random_shift': False, 'random_flip': False, 'random_speed': False, 'random_noise': False, 'normalization': False, 'debug': False, 'use_mmap': False}, 'model': 'model.BlockGCN.Model', 'model_args': {'num_class': 2, 'num_point': 25, 'num_person': 1, 'graph': 'graph.ntu_rgb_d.Graph', 'graph_args': {'labeling_mode': 'spatial'}, 'in_channels': 3, 'drop_out': 0.3, 'adaptive': True, 'alpha': False}, 'weights': None, 'ignore_weights': [], 'loss': 'CrossEntropyLoss', 'loss_args': {}, 'base_lr': 0.1, 'step': [50, 70], 'device': [0], 'optimizer': 'SGD', 'nesterov': True, 'momentum': 0.9, 'batch_size': 8, 'test_batch_size': 8, 'start_epoch': 0, 'num_epoch': 90, 'weight_decay': 0.0004, 'lr_decay_rate': 0.1, 'warm_up_epoch': 5, 'alpha': False}
+
+[ Sun May  3 04:35:47 2026 ] # Parameters: 1351474
+[ Sun May  3 04:35:47 2026 ] Training epoch: 1
+[ Sun May  3 04:36:46 2026 ] 	Mean training loss: 7.2892.  Mean training acc: 57.47%.
+[ Sun May  3 04:36:46 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:36:46 2026 ] Eval epoch: 1
+[ Sun May  3 04:37:06 2026 ] 	Mean test loss (119 batches): 3.2616
+[ Sun May  3 04:37:06 2026 ] 	Top1: 82.38%
+[ Sun May  3 04:37:06 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.93      0.84      0.88       758
+        fall       0.54      0.76      0.63       190
+
+    accuracy                           0.82       948
+   macro avg       0.74      0.80      0.76       948
+weighted avg       0.85      0.82      0.83       948
+
+[ Sun May  3 04:37:06 2026 ] 	Balanced Accuracy: 79.91%
+[ Sun May  3 04:37:06 2026 ] 	Sensitivity (Fall Recall)    : 75.79%
+[ Sun May  3 04:37:06 2026 ] 	Specificity (Non-Fall Recall): 84.04%
+[ Sun May  3 04:37:06 2026 ] 	TP= 144  TN= 637  FP= 121  FN=  46
+[ Sun May  3 04:37:06 2026 ] 	AUC-ROC: 0.8531
+[ Sun May  3 04:37:06 2026 ] Training epoch: 2
+[ Sun May  3 04:38:05 2026 ] 	Mean training loss: 0.8912.  Mean training acc: 75.66%.
+[ Sun May  3 04:38:05 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:38:05 2026 ] Eval epoch: 2
+[ Sun May  3 04:38:24 2026 ] 	Mean test loss (119 batches): 208.8589
+[ Sun May  3 04:38:24 2026 ] 	Top1: 90.82%
+[ Sun May  3 04:38:24 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.91      0.94       758
+        fall       0.71      0.92      0.80       190
+
+    accuracy                           0.91       948
+   macro avg       0.84      0.91      0.87       948
+weighted avg       0.92      0.91      0.91       948
+
+[ Sun May  3 04:38:24 2026 ] 	Balanced Accuracy: 91.11%
+[ Sun May  3 04:38:24 2026 ] 	Sensitivity (Fall Recall)    : 91.58%
+[ Sun May  3 04:38:24 2026 ] 	Specificity (Non-Fall Recall): 90.63%
+[ Sun May  3 04:38:24 2026 ] 	TP= 174  TN= 687  FP=  71  FN=  16
+[ Sun May  3 04:38:24 2026 ] 	AUC-ROC: 0.9461
+[ Sun May  3 04:38:25 2026 ] Training epoch: 3
+[ Sun May  3 04:39:26 2026 ] 	Mean training loss: 0.7806.  Mean training acc: 81.15%.
+[ Sun May  3 04:39:26 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:39:26 2026 ] Eval epoch: 3
+[ Sun May  3 04:39:46 2026 ] 	Mean test loss (119 batches): 90.4842
+[ Sun May  3 04:39:46 2026 ] 	Top1: 92.83%
+[ Sun May  3 04:39:46 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.93      0.95       758
+        fall       0.77      0.93      0.84       190
+
+    accuracy                           0.93       948
+   macro avg       0.87      0.93      0.90       948
+weighted avg       0.94      0.93      0.93       948
+
+[ Sun May  3 04:39:46 2026 ] 	Balanced Accuracy: 92.75%
+[ Sun May  3 04:39:46 2026 ] 	Sensitivity (Fall Recall)    : 92.63%
+[ Sun May  3 04:39:46 2026 ] 	Specificity (Non-Fall Recall): 92.88%
+[ Sun May  3 04:39:46 2026 ] 	TP= 176  TN= 704  FP=  54  FN=  14
+[ Sun May  3 04:39:46 2026 ] 	AUC-ROC: 0.9616
+[ Sun May  3 04:39:46 2026 ] Training epoch: 4
+[ Sun May  3 04:40:49 2026 ] 	Mean training loss: 0.6514.  Mean training acc: 83.33%.
+[ Sun May  3 04:40:49 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:40:49 2026 ] Eval epoch: 4
+[ Sun May  3 04:41:10 2026 ] 	Mean test loss (119 batches): 27.5719
+[ Sun May  3 04:41:10 2026 ] 	Top1: 87.45%
+[ Sun May  3 04:41:10 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.85      0.92       758
+        fall       0.62      0.96      0.75       190
+
+    accuracy                           0.87       948
+   macro avg       0.80      0.91      0.83       948
+weighted avg       0.91      0.87      0.88       948
+
+[ Sun May  3 04:41:10 2026 ] 	Balanced Accuracy: 90.57%
+[ Sun May  3 04:41:10 2026 ] 	Sensitivity (Fall Recall)    : 95.79%
+[ Sun May  3 04:41:10 2026 ] 	Specificity (Non-Fall Recall): 85.36%
+[ Sun May  3 04:41:10 2026 ] 	TP= 182  TN= 647  FP= 111  FN=   8
+[ Sun May  3 04:41:10 2026 ] 	AUC-ROC: 0.9524
+[ Sun May  3 04:41:10 2026 ] Training epoch: 5
+[ Sun May  3 04:42:14 2026 ] 	Mean training loss: 0.7096.  Mean training acc: 83.20%.
+[ Sun May  3 04:42:14 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:42:14 2026 ] Eval epoch: 5
+[ Sun May  3 04:42:35 2026 ] 	Mean test loss (119 batches): 93.1363
+[ Sun May  3 04:42:35 2026 ] 	Top1: 91.98%
+[ Sun May  3 04:42:35 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.92      0.95       758
+        fall       0.74      0.94      0.82       190
+
+    accuracy                           0.92       948
+   macro avg       0.86      0.93      0.89       948
+weighted avg       0.93      0.92      0.92       948
+
+[ Sun May  3 04:42:35 2026 ] 	Balanced Accuracy: 92.62%
+[ Sun May  3 04:42:35 2026 ] 	Sensitivity (Fall Recall)    : 93.68%
+[ Sun May  3 04:42:35 2026 ] 	Specificity (Non-Fall Recall): 91.56%
+[ Sun May  3 04:42:35 2026 ] 	TP= 178  TN= 694  FP=  64  FN=  12
+[ Sun May  3 04:42:35 2026 ] 	AUC-ROC: 0.9650
+[ Sun May  3 04:42:35 2026 ] Training epoch: 6
+[ Sun May  3 04:43:39 2026 ] 	Mean training loss: 0.4555.  Mean training acc: 84.79%.
+[ Sun May  3 04:43:39 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:43:39 2026 ] Eval epoch: 6
+[ Sun May  3 04:44:00 2026 ] 	Mean test loss (119 batches): 1.1253
+[ Sun May  3 04:44:00 2026 ] 	Top1: 92.30%
+[ Sun May  3 04:44:00 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.91      0.95       758
+        fall       0.73      0.97      0.84       190
+
+    accuracy                           0.92       948
+   macro avg       0.86      0.94      0.89       948
+weighted avg       0.94      0.92      0.93       948
+
+[ Sun May  3 04:44:00 2026 ] 	Balanced Accuracy: 94.20%
+[ Sun May  3 04:44:00 2026 ] 	Sensitivity (Fall Recall)    : 97.37%
+[ Sun May  3 04:44:00 2026 ] 	Specificity (Non-Fall Recall): 91.03%
+[ Sun May  3 04:44:00 2026 ] 	TP= 185  TN= 690  FP=  68  FN=   5
+[ Sun May  3 04:44:00 2026 ] 	AUC-ROC: 0.9808
+[ Sun May  3 04:44:00 2026 ] Training epoch: 7
+[ Sun May  3 04:45:05 2026 ] 	Mean training loss: 0.3266.  Mean training acc: 88.36%.
+[ Sun May  3 04:45:05 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:45:05 2026 ] Eval epoch: 7
+[ Sun May  3 04:45:26 2026 ] 	Mean test loss (119 batches): 35.0820
+[ Sun May  3 04:45:26 2026 ] 	Top1: 94.73%
+[ Sun May  3 04:45:26 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.95      0.97       758
+        fall       0.82      0.95      0.88       190
+
+    accuracy                           0.95       948
+   macro avg       0.90      0.95      0.92       948
+weighted avg       0.95      0.95      0.95       948
+
+[ Sun May  3 04:45:26 2026 ] 	Balanced Accuracy: 94.93%
+[ Sun May  3 04:45:26 2026 ] 	Sensitivity (Fall Recall)    : 95.26%
+[ Sun May  3 04:45:26 2026 ] 	Specificity (Non-Fall Recall): 94.59%
+[ Sun May  3 04:45:26 2026 ] 	TP= 181  TN= 717  FP=  41  FN=   9
+[ Sun May  3 04:45:26 2026 ] 	AUC-ROC: 0.9626
+[ Sun May  3 04:45:26 2026 ] Training epoch: 8
+[ Sun May  3 04:46:31 2026 ] 	Mean training loss: 0.3798.  Mean training acc: 88.76%.
+[ Sun May  3 04:46:31 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:46:31 2026 ] Eval epoch: 8
+[ Sun May  3 04:46:53 2026 ] 	Mean test loss (119 batches): 1.5624
+[ Sun May  3 04:46:53 2026 ] 	Top1: 95.04%
+[ Sun May  3 04:46:53 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.94      0.97       758
+        fall       0.81      0.98      0.89       190
+
+    accuracy                           0.95       948
+   macro avg       0.90      0.96      0.93       948
+weighted avg       0.96      0.95      0.95       948
+
+[ Sun May  3 04:46:53 2026 ] 	Balanced Accuracy: 96.11%
+[ Sun May  3 04:46:53 2026 ] 	Sensitivity (Fall Recall)    : 97.89%
+[ Sun May  3 04:46:53 2026 ] 	Specificity (Non-Fall Recall): 94.33%
+[ Sun May  3 04:46:53 2026 ] 	TP= 186  TN= 715  FP=  43  FN=   4
+[ Sun May  3 04:46:53 2026 ] 	AUC-ROC: 0.9679
+[ Sun May  3 04:46:53 2026 ] Training epoch: 9
+[ Sun May  3 04:47:58 2026 ] 	Mean training loss: 0.3775.  Mean training acc: 90.15%.
+[ Sun May  3 04:47:58 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:47:58 2026 ] Eval epoch: 9
+[ Sun May  3 04:48:20 2026 ] 	Mean test loss (119 batches): 0.6234
+[ Sun May  3 04:48:20 2026 ] 	Top1: 95.04%
+[ Sun May  3 04:48:20 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.94      0.97       758
+        fall       0.81      0.98      0.89       190
+
+    accuracy                           0.95       948
+   macro avg       0.90      0.96      0.93       948
+weighted avg       0.96      0.95      0.95       948
+
+[ Sun May  3 04:48:20 2026 ] 	Balanced Accuracy: 96.11%
+[ Sun May  3 04:48:20 2026 ] 	Sensitivity (Fall Recall)    : 97.89%
+[ Sun May  3 04:48:20 2026 ] 	Specificity (Non-Fall Recall): 94.33%
+[ Sun May  3 04:48:20 2026 ] 	TP= 186  TN= 715  FP=  43  FN=   4
+[ Sun May  3 04:48:20 2026 ] 	AUC-ROC: 0.9780
+[ Sun May  3 04:48:20 2026 ] Training epoch: 10
+[ Sun May  3 04:49:25 2026 ] 	Mean training loss: 0.3381.  Mean training acc: 90.21%.
+[ Sun May  3 04:49:25 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:49:25 2026 ] Eval epoch: 10
+[ Sun May  3 04:49:47 2026 ] 	Mean test loss (119 batches): 0.3496
+[ Sun May  3 04:49:47 2026 ] 	Top1: 96.10%
+[ Sun May  3 04:49:47 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.97      0.98      0.98       758
+        fall       0.93      0.87      0.90       190
+
+    accuracy                           0.96       948
+   macro avg       0.95      0.93      0.94       948
+weighted avg       0.96      0.96      0.96       948
+
+[ Sun May  3 04:49:47 2026 ] 	Balanced Accuracy: 92.83%
+[ Sun May  3 04:49:47 2026 ] 	Sensitivity (Fall Recall)    : 87.37%
+[ Sun May  3 04:49:47 2026 ] 	Specificity (Non-Fall Recall): 98.28%
+[ Sun May  3 04:49:47 2026 ] 	TP= 166  TN= 745  FP=  13  FN=  24
+[ Sun May  3 04:49:47 2026 ] 	AUC-ROC: 0.9893
+[ Sun May  3 04:49:47 2026 ] Training epoch: 11
+[ Sun May  3 04:50:53 2026 ] 	Mean training loss: 0.3465.  Mean training acc: 90.74%.
+[ Sun May  3 04:50:53 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:50:53 2026 ] Eval epoch: 11
+[ Sun May  3 04:51:15 2026 ] 	Mean test loss (119 batches): 0.1394
+[ Sun May  3 04:51:15 2026 ] 	Top1: 96.10%
+[ Sun May  3 04:51:15 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.97      0.98       758
+        fall       0.88      0.93      0.91       190
+
+    accuracy                           0.96       948
+   macro avg       0.93      0.95      0.94       948
+weighted avg       0.96      0.96      0.96       948
+
+[ Sun May  3 04:51:15 2026 ] 	Balanced Accuracy: 95.00%
+[ Sun May  3 04:51:15 2026 ] 	Sensitivity (Fall Recall)    : 93.16%
+[ Sun May  3 04:51:15 2026 ] 	Specificity (Non-Fall Recall): 96.83%
+[ Sun May  3 04:51:15 2026 ] 	TP= 177  TN= 734  FP=  24  FN=  13
+[ Sun May  3 04:51:15 2026 ] 	AUC-ROC: 0.9834
+[ Sun May  3 04:51:15 2026 ] Training epoch: 12
+[ Sun May  3 04:52:21 2026 ] 	Mean training loss: 0.2299.  Mean training acc: 91.34%.
+[ Sun May  3 04:52:21 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:52:21 2026 ] Eval epoch: 12
+[ Sun May  3 04:52:43 2026 ] 	Mean test loss (119 batches): 0.2727
+[ Sun May  3 04:52:43 2026 ] 	Top1: 96.73%
+[ Sun May  3 04:52:43 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.97      0.98       758
+        fall       0.90      0.94      0.92       190
+
+    accuracy                           0.97       948
+   macro avg       0.94      0.96      0.95       948
+weighted avg       0.97      0.97      0.97       948
+
+[ Sun May  3 04:52:43 2026 ] 	Balanced Accuracy: 95.59%
+[ Sun May  3 04:52:43 2026 ] 	Sensitivity (Fall Recall)    : 93.68%
+[ Sun May  3 04:52:43 2026 ] 	Specificity (Non-Fall Recall): 97.49%
+[ Sun May  3 04:52:43 2026 ] 	TP= 178  TN= 739  FP=  19  FN=  12
+[ Sun May  3 04:52:43 2026 ] 	AUC-ROC: 0.9581
+[ Sun May  3 04:52:43 2026 ] Training epoch: 13
+[ Sun May  3 04:53:51 2026 ] 	Mean training loss: 0.2587.  Mean training acc: 92.20%.
+[ Sun May  3 04:53:51 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:53:51 2026 ] Eval epoch: 13
+[ Sun May  3 04:54:12 2026 ] 	Mean test loss (119 batches): 0.1708
+[ Sun May  3 04:54:12 2026 ] 	Top1: 95.57%
+[ Sun May  3 04:54:12 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.96      0.97       758
+        fall       0.85      0.95      0.90       190
+
+    accuracy                           0.96       948
+   macro avg       0.92      0.95      0.93       948
+weighted avg       0.96      0.96      0.96       948
+
+[ Sun May  3 04:54:12 2026 ] 	Balanced Accuracy: 95.26%
+[ Sun May  3 04:54:12 2026 ] 	Sensitivity (Fall Recall)    : 94.74%
+[ Sun May  3 04:54:12 2026 ] 	Specificity (Non-Fall Recall): 95.78%
+[ Sun May  3 04:54:12 2026 ] 	TP= 180  TN= 726  FP=  32  FN=  10
+[ Sun May  3 04:54:12 2026 ] 	AUC-ROC: 0.9831
+[ Sun May  3 04:54:12 2026 ] Training epoch: 14
+[ Sun May  3 04:55:14 2026 ] 	Mean training loss: 0.2566.  Mean training acc: 91.80%.
+[ Sun May  3 04:55:14 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:55:14 2026 ] Eval epoch: 14
+[ Sun May  3 04:55:34 2026 ] 	Mean test loss (119 batches): 0.1392
+[ Sun May  3 04:55:34 2026 ] 	Top1: 96.31%
+[ Sun May  3 04:55:34 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.97      0.98       758
+        fall       0.88      0.95      0.91       190
+
+    accuracy                           0.96       948
+   macro avg       0.93      0.96      0.94       948
+weighted avg       0.96      0.96      0.96       948
+
+[ Sun May  3 04:55:34 2026 ] 	Balanced Accuracy: 95.72%
+[ Sun May  3 04:55:34 2026 ] 	Sensitivity (Fall Recall)    : 94.74%
+[ Sun May  3 04:55:34 2026 ] 	Specificity (Non-Fall Recall): 96.70%
+[ Sun May  3 04:55:34 2026 ] 	TP= 180  TN= 733  FP=  25  FN=  10
+[ Sun May  3 04:55:34 2026 ] 	AUC-ROC: 0.9887
+[ Sun May  3 04:55:34 2026 ] Training epoch: 15
+[ Sun May  3 04:56:36 2026 ] 	Mean training loss: 0.2835.  Mean training acc: 91.53%.
+[ Sun May  3 04:56:36 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:56:36 2026 ] Eval epoch: 15
+[ Sun May  3 04:56:57 2026 ] 	Mean test loss (119 batches): 1.2607
+[ Sun May  3 04:56:57 2026 ] 	Top1: 95.57%
+[ Sun May  3 04:56:57 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.95      0.97       758
+        fall       0.83      0.98      0.90       190
+
+    accuracy                           0.96       948
+   macro avg       0.91      0.97      0.94       948
+weighted avg       0.96      0.96      0.96       948
+
+[ Sun May  3 04:56:57 2026 ] 	Balanced Accuracy: 96.64%
+[ Sun May  3 04:56:57 2026 ] 	Sensitivity (Fall Recall)    : 98.42%
+[ Sun May  3 04:56:57 2026 ] 	Specificity (Non-Fall Recall): 94.85%
+[ Sun May  3 04:56:57 2026 ] 	TP= 187  TN= 719  FP=  39  FN=   3
+[ Sun May  3 04:56:57 2026 ] 	AUC-ROC: 0.9914
+[ Sun May  3 04:56:57 2026 ] Training epoch: 16
+[ Sun May  3 04:58:00 2026 ] 	Mean training loss: 0.2403.  Mean training acc: 92.59%.
+[ Sun May  3 04:58:00 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:58:00 2026 ] Eval epoch: 16
+[ Sun May  3 04:58:21 2026 ] 	Mean test loss (119 batches): 0.7928
+[ Sun May  3 04:58:21 2026 ] 	Top1: 96.41%
+[ Sun May  3 04:58:21 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.96      0.98       758
+        fall       0.86      0.98      0.92       190
+
+    accuracy                           0.96       948
+   macro avg       0.93      0.97      0.95       948
+weighted avg       0.97      0.96      0.96       948
+
+[ Sun May  3 04:58:21 2026 ] 	Balanced Accuracy: 96.97%
+[ Sun May  3 04:58:21 2026 ] 	Sensitivity (Fall Recall)    : 97.89%
+[ Sun May  3 04:58:21 2026 ] 	Specificity (Non-Fall Recall): 96.04%
+[ Sun May  3 04:58:21 2026 ] 	TP= 186  TN= 728  FP=  30  FN=   4
+[ Sun May  3 04:58:21 2026 ] 	AUC-ROC: 0.9938
+[ Sun May  3 04:58:21 2026 ] Training epoch: 17
+[ Sun May  3 04:59:24 2026 ] 	Mean training loss: 0.2426.  Mean training acc: 90.41%.
+[ Sun May  3 04:59:24 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 04:59:24 2026 ] Eval epoch: 17
+[ Sun May  3 04:59:44 2026 ] 	Mean test loss (119 batches): 0.1101
+[ Sun May  3 04:59:44 2026 ] 	Top1: 95.78%
+[ Sun May  3 04:59:44 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.96      0.97       758
+        fall       0.84      0.97      0.90       190
+
+    accuracy                           0.96       948
+   macro avg       0.92      0.96      0.94       948
+weighted avg       0.96      0.96      0.96       948
+
+[ Sun May  3 04:59:44 2026 ] 	Balanced Accuracy: 96.18%
+[ Sun May  3 04:59:44 2026 ] 	Sensitivity (Fall Recall)    : 96.84%
+[ Sun May  3 04:59:44 2026 ] 	Specificity (Non-Fall Recall): 95.51%
+[ Sun May  3 04:59:44 2026 ] 	TP= 184  TN= 724  FP=  34  FN=   6
+[ Sun May  3 04:59:44 2026 ] 	AUC-ROC: 0.9918
+[ Sun May  3 04:59:44 2026 ] Training epoch: 18
+[ Sun May  3 05:00:47 2026 ] 	Mean training loss: 0.2599.  Mean training acc: 90.74%.
+[ Sun May  3 05:00:47 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:00:47 2026 ] Eval epoch: 18
+[ Sun May  3 05:01:08 2026 ] 	Mean test loss (119 batches): 0.1546
+[ Sun May  3 05:01:08 2026 ] 	Top1: 93.46%
+[ Sun May  3 05:01:08 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.92      0.96       758
+        fall       0.76      0.99      0.86       190
+
+    accuracy                           0.93       948
+   macro avg       0.88      0.96      0.91       948
+weighted avg       0.95      0.93      0.94       948
+
+[ Sun May  3 05:01:08 2026 ] 	Balanced Accuracy: 95.52%
+[ Sun May  3 05:01:08 2026 ] 	Sensitivity (Fall Recall)    : 98.95%
+[ Sun May  3 05:01:08 2026 ] 	Specificity (Non-Fall Recall): 92.08%
+[ Sun May  3 05:01:08 2026 ] 	TP= 188  TN= 698  FP=  60  FN=   2
+[ Sun May  3 05:01:08 2026 ] 	AUC-ROC: 0.9946
+[ Sun May  3 05:01:08 2026 ] Training epoch: 19
+[ Sun May  3 05:02:12 2026 ] 	Mean training loss: 0.2406.  Mean training acc: 91.67%.
+[ Sun May  3 05:02:12 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:02:12 2026 ] Eval epoch: 19
+[ Sun May  3 05:02:33 2026 ] 	Mean test loss (119 batches): 1.2658
+[ Sun May  3 05:02:33 2026 ] 	Top1: 95.25%
+[ Sun May  3 05:02:33 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.96      0.97       758
+        fall       0.84      0.94      0.89       190
+
+    accuracy                           0.95       948
+   macro avg       0.91      0.95      0.93       948
+weighted avg       0.96      0.95      0.95       948
+
+[ Sun May  3 05:02:33 2026 ] 	Balanced Accuracy: 94.67%
+[ Sun May  3 05:02:33 2026 ] 	Sensitivity (Fall Recall)    : 93.68%
+[ Sun May  3 05:02:33 2026 ] 	Specificity (Non-Fall Recall): 95.65%
+[ Sun May  3 05:02:33 2026 ] 	TP= 178  TN= 725  FP=  33  FN=  12
+[ Sun May  3 05:02:33 2026 ] 	AUC-ROC: 0.9862
+[ Sun May  3 05:02:33 2026 ] Training epoch: 20
+[ Sun May  3 05:03:36 2026 ] 	Mean training loss: 0.2446.  Mean training acc: 91.14%.
+[ Sun May  3 05:03:36 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:03:36 2026 ] Eval epoch: 20
+[ Sun May  3 05:03:57 2026 ] 	Mean test loss (119 batches): 0.4237
+[ Sun May  3 05:03:57 2026 ] 	Top1: 92.72%
+[ Sun May  3 05:03:57 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.91      0.95       758
+        fall       0.74      0.99      0.84       190
+
+    accuracy                           0.93       948
+   macro avg       0.87      0.95      0.90       948
+weighted avg       0.95      0.93      0.93       948
+
+[ Sun May  3 05:03:57 2026 ] 	Balanced Accuracy: 95.05%
+[ Sun May  3 05:03:57 2026 ] 	Sensitivity (Fall Recall)    : 98.95%
+[ Sun May  3 05:03:57 2026 ] 	Specificity (Non-Fall Recall): 91.16%
+[ Sun May  3 05:03:57 2026 ] 	TP= 188  TN= 691  FP=  67  FN=   2
+[ Sun May  3 05:03:57 2026 ] 	AUC-ROC: 0.9819
+[ Sun May  3 05:03:57 2026 ] Training epoch: 21
+[ Sun May  3 05:05:02 2026 ] 	Mean training loss: 0.2169.  Mean training acc: 92.46%.
+[ Sun May  3 05:05:02 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:05:02 2026 ] Eval epoch: 21
+[ Sun May  3 05:05:23 2026 ] 	Mean test loss (119 batches): 0.2236
+[ Sun May  3 05:05:23 2026 ] 	Top1: 89.66%
+[ Sun May  3 05:05:23 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.89      0.99      0.94       758
+        fall       0.93      0.53      0.67       190
+
+    accuracy                           0.90       948
+   macro avg       0.91      0.76      0.80       948
+weighted avg       0.90      0.90      0.89       948
+
+[ Sun May  3 05:05:23 2026 ] 	Balanced Accuracy: 75.79%
+[ Sun May  3 05:05:23 2026 ] 	Sensitivity (Fall Recall)    : 52.63%
+[ Sun May  3 05:05:23 2026 ] 	Specificity (Non-Fall Recall): 98.94%
+[ Sun May  3 05:05:23 2026 ] 	TP= 100  TN= 750  FP=   8  FN=  90
+[ Sun May  3 05:05:23 2026 ] 	AUC-ROC: 0.9842
+[ Sun May  3 05:05:23 2026 ] Training epoch: 22
+[ Sun May  3 05:06:27 2026 ] 	Mean training loss: 0.2041.  Mean training acc: 92.72%.
+[ Sun May  3 05:06:27 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:06:27 2026 ] Eval epoch: 22
+[ Sun May  3 05:06:48 2026 ] 	Mean test loss (119 batches): 0.1679
+[ Sun May  3 05:06:48 2026 ] 	Top1: 95.46%
+[ Sun May  3 05:06:48 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.97      0.97      0.97       758
+        fall       0.89      0.88      0.89       190
+
+    accuracy                           0.95       948
+   macro avg       0.93      0.93      0.93       948
+weighted avg       0.95      0.95      0.95       948
+
+[ Sun May  3 05:06:48 2026 ] 	Balanced Accuracy: 92.63%
+[ Sun May  3 05:06:48 2026 ] 	Sensitivity (Fall Recall)    : 87.89%
+[ Sun May  3 05:06:48 2026 ] 	Specificity (Non-Fall Recall): 97.36%
+[ Sun May  3 05:06:48 2026 ] 	TP= 167  TN= 738  FP=  20  FN=  23
+[ Sun May  3 05:06:48 2026 ] 	AUC-ROC: 0.9837
+[ Sun May  3 05:06:48 2026 ] Training epoch: 23
+[ Sun May  3 05:07:52 2026 ] 	Mean training loss: 0.2385.  Mean training acc: 91.40%.
+[ Sun May  3 05:07:52 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:07:52 2026 ] Eval epoch: 23
+[ Sun May  3 05:08:13 2026 ] 	Mean test loss (119 batches): 0.1434
+[ Sun May  3 05:08:13 2026 ] 	Top1: 96.31%
+[ Sun May  3 05:08:13 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.96      0.98       758
+        fall       0.85      0.99      0.91       190
+
+    accuracy                           0.96       948
+   macro avg       0.92      0.97      0.95       948
+weighted avg       0.97      0.96      0.96       948
+
+[ Sun May  3 05:08:13 2026 ] 	Balanced Accuracy: 97.30%
+[ Sun May  3 05:08:13 2026 ] 	Sensitivity (Fall Recall)    : 98.95%
+[ Sun May  3 05:08:13 2026 ] 	Specificity (Non-Fall Recall): 95.65%
+[ Sun May  3 05:08:13 2026 ] 	TP= 188  TN= 725  FP=  33  FN=   2
+[ Sun May  3 05:08:13 2026 ] 	AUC-ROC: 0.9937
+[ Sun May  3 05:08:13 2026 ] Training epoch: 24
+[ Sun May  3 05:09:16 2026 ] 	Mean training loss: 0.2126.  Mean training acc: 92.13%.
+[ Sun May  3 05:09:16 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:09:16 2026 ] Eval epoch: 24
+[ Sun May  3 05:09:38 2026 ] 	Mean test loss (119 batches): 0.1315
+[ Sun May  3 05:09:38 2026 ] 	Top1: 95.25%
+[ Sun May  3 05:09:38 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.96      0.97       758
+        fall       0.85      0.93      0.89       190
+
+    accuracy                           0.95       948
+   macro avg       0.91      0.94      0.93       948
+weighted avg       0.96      0.95      0.95       948
+
+[ Sun May  3 05:09:38 2026 ] 	Balanced Accuracy: 94.47%
+[ Sun May  3 05:09:38 2026 ] 	Sensitivity (Fall Recall)    : 93.16%
+[ Sun May  3 05:09:38 2026 ] 	Specificity (Non-Fall Recall): 95.78%
+[ Sun May  3 05:09:38 2026 ] 	TP= 177  TN= 726  FP=  32  FN=  13
+[ Sun May  3 05:09:38 2026 ] 	AUC-ROC: 0.9895
+[ Sun May  3 05:09:38 2026 ] Training epoch: 25
+[ Sun May  3 05:10:42 2026 ] 	Mean training loss: 0.2331.  Mean training acc: 91.47%.
+[ Sun May  3 05:10:42 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:10:42 2026 ] Eval epoch: 25
+[ Sun May  3 05:11:03 2026 ] 	Mean test loss (119 batches): 0.1050
+[ Sun May  3 05:11:03 2026 ] 	Top1: 96.31%
+[ Sun May  3 05:11:03 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.96      0.98       758
+        fall       0.85      0.98      0.91       190
+
+    accuracy                           0.96       948
+   macro avg       0.92      0.97      0.95       948
+weighted avg       0.97      0.96      0.96       948
+
+[ Sun May  3 05:11:03 2026 ] 	Balanced Accuracy: 97.10%
+[ Sun May  3 05:11:03 2026 ] 	Sensitivity (Fall Recall)    : 98.42%
+[ Sun May  3 05:11:03 2026 ] 	Specificity (Non-Fall Recall): 95.78%
+[ Sun May  3 05:11:03 2026 ] 	TP= 187  TN= 726  FP=  32  FN=   3
+[ Sun May  3 05:11:03 2026 ] 	AUC-ROC: 0.9957
+[ Sun May  3 05:11:03 2026 ] Training epoch: 26
+[ Sun May  3 05:12:07 2026 ] 	Mean training loss: 0.2003.  Mean training acc: 93.12%.
+[ Sun May  3 05:12:07 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:12:07 2026 ] Eval epoch: 26
+[ Sun May  3 05:12:28 2026 ] 	Mean test loss (119 batches): 0.1338
+[ Sun May  3 05:12:28 2026 ] 	Top1: 96.62%
+[ Sun May  3 05:12:28 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.98      0.98       758
+        fall       0.91      0.92      0.92       190
+
+    accuracy                           0.97       948
+   macro avg       0.95      0.95      0.95       948
+weighted avg       0.97      0.97      0.97       948
+
+[ Sun May  3 05:12:28 2026 ] 	Balanced Accuracy: 94.93%
+[ Sun May  3 05:12:28 2026 ] 	Sensitivity (Fall Recall)    : 92.11%
+[ Sun May  3 05:12:28 2026 ] 	Specificity (Non-Fall Recall): 97.76%
+[ Sun May  3 05:12:28 2026 ] 	TP= 175  TN= 741  FP=  17  FN=  15
+[ Sun May  3 05:12:28 2026 ] 	AUC-ROC: 0.9926
+[ Sun May  3 05:12:28 2026 ] Training epoch: 27
+[ Sun May  3 05:13:32 2026 ] 	Mean training loss: 0.2344.  Mean training acc: 92.99%.
+[ Sun May  3 05:13:32 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:13:32 2026 ] Eval epoch: 27
+[ Sun May  3 05:13:53 2026 ] 	Mean test loss (119 batches): 0.1511
+[ Sun May  3 05:13:53 2026 ] 	Top1: 94.83%
+[ Sun May  3 05:13:53 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.95      0.97       758
+        fall       0.82      0.96      0.88       190
+
+    accuracy                           0.95       948
+   macro avg       0.90      0.95      0.92       948
+weighted avg       0.95      0.95      0.95       948
+
+[ Sun May  3 05:13:53 2026 ] 	Balanced Accuracy: 95.19%
+[ Sun May  3 05:13:53 2026 ] 	Sensitivity (Fall Recall)    : 95.79%
+[ Sun May  3 05:13:53 2026 ] 	Specificity (Non-Fall Recall): 94.59%
+[ Sun May  3 05:13:53 2026 ] 	TP= 182  TN= 717  FP=  41  FN=   8
+[ Sun May  3 05:13:53 2026 ] 	AUC-ROC: 0.9871
+[ Sun May  3 05:13:53 2026 ] Training epoch: 28
+[ Sun May  3 05:14:58 2026 ] 	Mean training loss: 0.1934.  Mean training acc: 93.32%.
+[ Sun May  3 05:14:58 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:14:58 2026 ] Eval epoch: 28
+[ Sun May  3 05:15:19 2026 ] 	Mean test loss (119 batches): 0.3750
+[ Sun May  3 05:15:19 2026 ] 	Top1: 87.34%
+[ Sun May  3 05:15:19 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.84      0.91       758
+        fall       0.61      0.99      0.76       190
+
+    accuracy                           0.87       948
+   macro avg       0.81      0.92      0.84       948
+weighted avg       0.92      0.87      0.88       948
+
+[ Sun May  3 05:15:19 2026 ] 	Balanced Accuracy: 91.89%
+[ Sun May  3 05:15:19 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 05:15:19 2026 ] 	Specificity (Non-Fall Recall): 84.30%
+[ Sun May  3 05:15:19 2026 ] 	TP= 189  TN= 639  FP= 119  FN=   1
+[ Sun May  3 05:15:19 2026 ] 	AUC-ROC: 0.9914
+[ Sun May  3 05:15:19 2026 ] Training epoch: 29
+[ Sun May  3 05:16:23 2026 ] 	Mean training loss: 0.2186.  Mean training acc: 90.94%.
+[ Sun May  3 05:16:23 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:16:23 2026 ] Eval epoch: 29
+[ Sun May  3 05:16:45 2026 ] 	Mean test loss (119 batches): 0.5275
+[ Sun May  3 05:16:45 2026 ] 	Top1: 81.01%
+[ Sun May  3 05:16:45 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.76      0.87       758
+        fall       0.51      0.99      0.68       190
+
+    accuracy                           0.81       948
+   macro avg       0.76      0.88      0.77       948
+weighted avg       0.90      0.81      0.83       948
+
+[ Sun May  3 05:16:45 2026 ] 	Balanced Accuracy: 87.93%
+[ Sun May  3 05:16:45 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 05:16:45 2026 ] 	Specificity (Non-Fall Recall): 76.39%
+[ Sun May  3 05:16:45 2026 ] 	TP= 189  TN= 579  FP= 179  FN=   1
+[ Sun May  3 05:16:45 2026 ] 	AUC-ROC: 0.9907
+[ Sun May  3 05:16:45 2026 ] Training epoch: 30
+[ Sun May  3 05:17:49 2026 ] 	Mean training loss: 0.2222.  Mean training acc: 92.53%.
+[ Sun May  3 05:17:49 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:17:49 2026 ] Eval epoch: 30
+[ Sun May  3 05:18:11 2026 ] 	Mean test loss (119 batches): 0.5168
+[ Sun May  3 05:18:11 2026 ] 	Top1: 83.12%
+[ Sun May  3 05:18:11 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.79      0.88       758
+        fall       0.54      0.99      0.70       190
+
+    accuracy                           0.83       948
+   macro avg       0.77      0.89      0.79       948
+weighted avg       0.91      0.83      0.85       948
+
+[ Sun May  3 05:18:11 2026 ] 	Balanced Accuracy: 89.25%
+[ Sun May  3 05:18:11 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 05:18:11 2026 ] 	Specificity (Non-Fall Recall): 79.02%
+[ Sun May  3 05:18:11 2026 ] 	TP= 189  TN= 599  FP= 159  FN=   1
+[ Sun May  3 05:18:11 2026 ] 	AUC-ROC: 0.9820
+[ Sun May  3 05:18:11 2026 ] Training epoch: 31
+[ Sun May  3 05:19:15 2026 ] 	Mean training loss: 0.2454.  Mean training acc: 91.73%.
+[ Sun May  3 05:19:15 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:19:15 2026 ] Eval epoch: 31
+[ Sun May  3 05:19:36 2026 ] 	Mean test loss (119 batches): 0.1966
+[ Sun May  3 05:19:36 2026 ] 	Top1: 94.30%
+[ Sun May  3 05:19:36 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.94      0.96       758
+        fall       0.80      0.96      0.87       190
+
+    accuracy                           0.94       948
+   macro avg       0.89      0.95      0.92       948
+weighted avg       0.95      0.94      0.94       948
+
+[ Sun May  3 05:19:36 2026 ] 	Balanced Accuracy: 94.86%
+[ Sun May  3 05:19:36 2026 ] 	Sensitivity (Fall Recall)    : 95.79%
+[ Sun May  3 05:19:36 2026 ] 	Specificity (Non-Fall Recall): 93.93%
+[ Sun May  3 05:19:36 2026 ] 	TP= 182  TN= 712  FP=  46  FN=   8
+[ Sun May  3 05:19:36 2026 ] 	AUC-ROC: 0.9800
+[ Sun May  3 05:19:36 2026 ] Training epoch: 32
+[ Sun May  3 05:20:40 2026 ] 	Mean training loss: 0.2430.  Mean training acc: 92.06%.
+[ Sun May  3 05:20:40 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:20:41 2026 ] Eval epoch: 32
+[ Sun May  3 05:21:02 2026 ] 	Mean test loss (119 batches): 0.1688
+[ Sun May  3 05:21:02 2026 ] 	Top1: 95.25%
+[ Sun May  3 05:21:02 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.96      0.98      0.97       758
+        fall       0.92      0.84      0.88       190
+
+    accuracy                           0.95       948
+   macro avg       0.94      0.91      0.92       948
+weighted avg       0.95      0.95      0.95       948
+
+[ Sun May  3 05:21:02 2026 ] 	Balanced Accuracy: 90.92%
+[ Sun May  3 05:21:02 2026 ] 	Sensitivity (Fall Recall)    : 83.68%
+[ Sun May  3 05:21:02 2026 ] 	Specificity (Non-Fall Recall): 98.15%
+[ Sun May  3 05:21:02 2026 ] 	TP= 159  TN= 744  FP=  14  FN=  31
+[ Sun May  3 05:21:02 2026 ] 	AUC-ROC: 0.9818
+[ Sun May  3 05:21:02 2026 ] Training epoch: 33
+[ Sun May  3 05:22:06 2026 ] 	Mean training loss: 0.2427.  Mean training acc: 92.20%.
+[ Sun May  3 05:22:06 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:22:06 2026 ] Eval epoch: 33
+[ Sun May  3 05:22:28 2026 ] 	Mean test loss (119 batches): 0.2648
+[ Sun May  3 05:22:28 2026 ] 	Top1: 96.62%
+[ Sun May  3 05:22:28 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.98      0.98       758
+        fall       0.91      0.93      0.92       190
+
+    accuracy                           0.97       948
+   macro avg       0.94      0.95      0.95       948
+weighted avg       0.97      0.97      0.97       948
+
+[ Sun May  3 05:22:28 2026 ] 	Balanced Accuracy: 95.13%
+[ Sun May  3 05:22:28 2026 ] 	Sensitivity (Fall Recall)    : 92.63%
+[ Sun May  3 05:22:28 2026 ] 	Specificity (Non-Fall Recall): 97.63%
+[ Sun May  3 05:22:28 2026 ] 	TP= 176  TN= 740  FP=  18  FN=  14
+[ Sun May  3 05:22:28 2026 ] 	AUC-ROC: 0.9869
+[ Sun May  3 05:22:28 2026 ] Training epoch: 34
+[ Sun May  3 05:23:32 2026 ] 	Mean training loss: 0.1966.  Mean training acc: 92.99%.
+[ Sun May  3 05:23:32 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:23:32 2026 ] Eval epoch: 34
+[ Sun May  3 05:23:54 2026 ] 	Mean test loss (119 batches): 1.7107
+[ Sun May  3 05:23:54 2026 ] 	Top1: 80.17%
+[ Sun May  3 05:23:54 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.80      1.00      0.89       758
+        fall       0.75      0.02      0.03       190
+
+    accuracy                           0.80       948
+   macro avg       0.78      0.51      0.46       948
+weighted avg       0.79      0.80      0.72       948
+
+[ Sun May  3 05:23:54 2026 ] 	Balanced Accuracy: 50.72%
+[ Sun May  3 05:23:54 2026 ] 	Sensitivity (Fall Recall)    : 1.58%
+[ Sun May  3 05:23:54 2026 ] 	Specificity (Non-Fall Recall): 99.87%
+[ Sun May  3 05:23:54 2026 ] 	TP=   3  TN= 757  FP=   1  FN= 187
+[ Sun May  3 05:23:54 2026 ] 	AUC-ROC: 0.9772
+[ Sun May  3 05:23:54 2026 ] Training epoch: 35
+[ Sun May  3 05:24:58 2026 ] 	Mean training loss: 0.2158.  Mean training acc: 92.46%.
+[ Sun May  3 05:24:58 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:24:58 2026 ] Eval epoch: 35
+[ Sun May  3 05:25:19 2026 ] 	Mean test loss (119 batches): 0.1605
+[ Sun May  3 05:25:19 2026 ] 	Top1: 96.20%
+[ Sun May  3 05:25:19 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.97      0.98       758
+        fall       0.89      0.93      0.91       190
+
+    accuracy                           0.96       948
+   macro avg       0.94      0.95      0.94       948
+weighted avg       0.96      0.96      0.96       948
+
+[ Sun May  3 05:25:19 2026 ] 	Balanced Accuracy: 94.86%
+[ Sun May  3 05:25:19 2026 ] 	Sensitivity (Fall Recall)    : 92.63%
+[ Sun May  3 05:25:19 2026 ] 	Specificity (Non-Fall Recall): 97.10%
+[ Sun May  3 05:25:19 2026 ] 	TP= 176  TN= 736  FP=  22  FN=  14
+[ Sun May  3 05:25:19 2026 ] 	AUC-ROC: 0.9850
+[ Sun May  3 05:25:19 2026 ] Training epoch: 36
+[ Sun May  3 05:26:24 2026 ] 	Mean training loss: 0.2125.  Mean training acc: 92.46%.
+[ Sun May  3 05:26:24 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:26:24 2026 ] Eval epoch: 36
+[ Sun May  3 05:26:46 2026 ] 	Mean test loss (119 batches): 0.1845
+[ Sun May  3 05:26:46 2026 ] 	Top1: 94.83%
+[ Sun May  3 05:26:46 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.98      0.95      0.97       758
+        fall       0.82      0.94      0.88       190
+
+    accuracy                           0.95       948
+   macro avg       0.90      0.95      0.92       948
+weighted avg       0.95      0.95      0.95       948
+
+[ Sun May  3 05:26:46 2026 ] 	Balanced Accuracy: 94.60%
+[ Sun May  3 05:26:46 2026 ] 	Sensitivity (Fall Recall)    : 94.21%
+[ Sun May  3 05:26:46 2026 ] 	Specificity (Non-Fall Recall): 94.99%
+[ Sun May  3 05:26:46 2026 ] 	TP= 179  TN= 720  FP=  38  FN=  11
+[ Sun May  3 05:26:46 2026 ] 	AUC-ROC: 0.9786
+[ Sun May  3 05:26:46 2026 ] Training epoch: 37
+[ Sun May  3 05:27:50 2026 ] 	Mean training loss: 0.2210.  Mean training acc: 92.26%.
+[ Sun May  3 05:27:50 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:27:50 2026 ] Eval epoch: 37
+[ Sun May  3 05:28:11 2026 ] 	Mean test loss (119 batches): 0.1333
+[ Sun May  3 05:28:11 2026 ] 	Top1: 95.89%
+[ Sun May  3 05:28:11 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.96      0.97       758
+        fall       0.84      0.97      0.90       190
+
+    accuracy                           0.96       948
+   macro avg       0.92      0.96      0.94       948
+weighted avg       0.96      0.96      0.96       948
+
+[ Sun May  3 05:28:11 2026 ] 	Balanced Accuracy: 96.44%
+[ Sun May  3 05:28:11 2026 ] 	Sensitivity (Fall Recall)    : 97.37%
+[ Sun May  3 05:28:11 2026 ] 	Specificity (Non-Fall Recall): 95.51%
+[ Sun May  3 05:28:11 2026 ] 	TP= 185  TN= 724  FP=  34  FN=   5
+[ Sun May  3 05:28:11 2026 ] 	AUC-ROC: 0.9887
+[ Sun May  3 05:28:11 2026 ] Training epoch: 38
+[ Sun May  3 05:29:16 2026 ] 	Mean training loss: 0.1948.  Mean training acc: 92.53%.
+[ Sun May  3 05:29:16 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:29:16 2026 ] Eval epoch: 38
+[ Sun May  3 05:29:37 2026 ] 	Mean test loss (119 batches): 0.1979
+[ Sun May  3 05:29:37 2026 ] 	Top1: 91.03%
+[ Sun May  3 05:29:37 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.91      0.99      0.95       758
+        fall       0.94      0.59      0.72       190
+
+    accuracy                           0.91       948
+   macro avg       0.92      0.79      0.84       948
+weighted avg       0.91      0.91      0.90       948
+
+[ Sun May  3 05:29:37 2026 ] 	Balanced Accuracy: 79.01%
+[ Sun May  3 05:29:37 2026 ] 	Sensitivity (Fall Recall)    : 58.95%
+[ Sun May  3 05:29:37 2026 ] 	Specificity (Non-Fall Recall): 99.08%
+[ Sun May  3 05:29:37 2026 ] 	TP= 112  TN= 751  FP=   7  FN=  78
+[ Sun May  3 05:29:37 2026 ] 	AUC-ROC: 0.9884
+[ Sun May  3 05:29:37 2026 ] Training epoch: 39
+[ Sun May  3 05:30:42 2026 ] 	Mean training loss: 0.1935.  Mean training acc: 93.25%.
+[ Sun May  3 05:30:42 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:30:42 2026 ] Eval epoch: 39
+[ Sun May  3 05:31:04 2026 ] 	Mean test loss (119 batches): 3.9577
+[ Sun May  3 05:31:04 2026 ] 	Top1: 79.96%
+[ Sun May  3 05:31:04 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.80      1.00      0.89       758
+        fall       0.00      0.00      0.00       190
+
+    accuracy                           0.80       948
+   macro avg       0.40      0.50      0.44       948
+weighted avg       0.64      0.80      0.71       948
+
+[ Sun May  3 05:31:04 2026 ] 	Balanced Accuracy: 50.00%
+[ Sun May  3 05:31:04 2026 ] 	Sensitivity (Fall Recall)    : 0.00%
+[ Sun May  3 05:31:04 2026 ] 	Specificity (Non-Fall Recall): 100.00%
+[ Sun May  3 05:31:04 2026 ] 	TP=   0  TN= 758  FP=   0  FN= 190
+[ Sun May  3 05:31:04 2026 ] 	AUC-ROC: 0.9595
+[ Sun May  3 05:31:04 2026 ] Training epoch: 40
+[ Sun May  3 05:32:09 2026 ] 	Mean training loss: 0.2029.  Mean training acc: 93.52%.
+[ Sun May  3 05:32:09 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:32:09 2026 ] Eval epoch: 40
+[ Sun May  3 05:32:30 2026 ] 	Mean test loss (119 batches): 1.7635
+[ Sun May  3 05:32:30 2026 ] 	Top1: 80.59%
+[ Sun May  3 05:32:30 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.81      0.99      0.89       758
+        fall       0.69      0.06      0.11       190
+
+    accuracy                           0.81       948
+   macro avg       0.75      0.53      0.50       948
+weighted avg       0.78      0.81      0.73       948
+
+[ Sun May  3 05:32:30 2026 ] 	Balanced Accuracy: 52.56%
+[ Sun May  3 05:32:30 2026 ] 	Sensitivity (Fall Recall)    : 5.79%
+[ Sun May  3 05:32:30 2026 ] 	Specificity (Non-Fall Recall): 99.34%
+[ Sun May  3 05:32:30 2026 ] 	TP=  11  TN= 753  FP=   5  FN= 179
+[ Sun May  3 05:32:30 2026 ] 	AUC-ROC: 0.8489
+[ Sun May  3 05:32:30 2026 ] Training epoch: 41
+[ Sun May  3 05:33:35 2026 ] 	Mean training loss: 0.2019.  Mean training acc: 93.52%.
+[ Sun May  3 05:33:35 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:33:35 2026 ] Eval epoch: 41
+[ Sun May  3 05:33:57 2026 ] 	Mean test loss (119 batches): 0.2357
+[ Sun May  3 05:33:57 2026 ] 	Top1: 91.46%
+[ Sun May  3 05:33:57 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.91      0.99      0.95       758
+        fall       0.92      0.63      0.75       190
+
+    accuracy                           0.91       948
+   macro avg       0.92      0.81      0.85       948
+weighted avg       0.91      0.91      0.91       948
+
+[ Sun May  3 05:33:57 2026 ] 	Balanced Accuracy: 80.85%
+[ Sun May  3 05:33:57 2026 ] 	Sensitivity (Fall Recall)    : 63.16%
+[ Sun May  3 05:33:57 2026 ] 	Specificity (Non-Fall Recall): 98.55%
+[ Sun May  3 05:33:57 2026 ] 	TP= 120  TN= 747  FP=  11  FN=  70
+[ Sun May  3 05:33:57 2026 ] 	AUC-ROC: 0.9818
+[ Sun May  3 05:33:57 2026 ] Training epoch: 42
+[ Sun May  3 05:35:02 2026 ] 	Mean training loss: 0.1628.  Mean training acc: 93.72%.
+[ Sun May  3 05:35:02 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:35:02 2026 ] Eval epoch: 42
+[ Sun May  3 05:35:23 2026 ] 	Mean test loss (119 batches): 2.9616
+[ Sun May  3 05:35:23 2026 ] 	Top1: 20.04%
+[ Sun May  3 05:35:23 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.00      0.00      0.00       758
+        fall       0.20      1.00      0.33       190
+
+    accuracy                           0.20       948
+   macro avg       0.10      0.50      0.17       948
+weighted avg       0.04      0.20      0.07       948
+
+[ Sun May  3 05:35:23 2026 ] 	Balanced Accuracy: 50.00%
+[ Sun May  3 05:35:23 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 05:35:23 2026 ] 	Specificity (Non-Fall Recall): 0.00%
+[ Sun May  3 05:35:23 2026 ] 	TP= 190  TN=   0  FP= 758  FN=   0
+[ Sun May  3 05:35:23 2026 ] 	AUC-ROC: 0.9815
+[ Sun May  3 05:35:23 2026 ] Training epoch: 43
+[ Sun May  3 05:36:30 2026 ] 	Mean training loss: 0.1737.  Mean training acc: 93.92%.
+[ Sun May  3 05:36:30 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:36:30 2026 ] Eval epoch: 43
+[ Sun May  3 05:36:52 2026 ] 	Mean test loss (119 batches): 0.7383
+[ Sun May  3 05:36:52 2026 ] 	Top1: 81.01%
+[ Sun May  3 05:36:52 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.81      1.00      0.89       758
+        fall       0.81      0.07      0.13       190
+
+    accuracy                           0.81       948
+   macro avg       0.81      0.53      0.51       948
+weighted avg       0.81      0.81      0.74       948
+
+[ Sun May  3 05:36:52 2026 ] 	Balanced Accuracy: 53.22%
+[ Sun May  3 05:36:52 2026 ] 	Sensitivity (Fall Recall)    : 6.84%
+[ Sun May  3 05:36:52 2026 ] 	Specificity (Non-Fall Recall): 99.60%
+[ Sun May  3 05:36:52 2026 ] 	TP=  13  TN= 755  FP=   3  FN= 177
+[ Sun May  3 05:36:52 2026 ] 	AUC-ROC: 0.9793
+[ Sun May  3 05:36:52 2026 ] Training epoch: 44
+[ Sun May  3 05:37:56 2026 ] 	Mean training loss: 0.1819.  Mean training acc: 93.52%.
+[ Sun May  3 05:37:56 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:37:57 2026 ] Eval epoch: 44
+[ Sun May  3 05:38:18 2026 ] 	Mean test loss (119 batches): 0.1463
+[ Sun May  3 05:38:18 2026 ] 	Top1: 94.09%
+[ Sun May  3 05:38:18 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.95      0.98      0.96       758
+        fall       0.90      0.79      0.84       190
+
+    accuracy                           0.94       948
+   macro avg       0.92      0.89      0.90       948
+weighted avg       0.94      0.94      0.94       948
+
+[ Sun May  3 05:38:18 2026 ] 	Balanced Accuracy: 88.62%
+[ Sun May  3 05:38:18 2026 ] 	Sensitivity (Fall Recall)    : 79.47%
+[ Sun May  3 05:38:18 2026 ] 	Specificity (Non-Fall Recall): 97.76%
+[ Sun May  3 05:38:19 2026 ] 	TP= 151  TN= 741  FP=  17  FN=  39
+[ Sun May  3 05:38:19 2026 ] 	AUC-ROC: 0.9824
+[ Sun May  3 05:38:19 2026 ] Training epoch: 45
+[ Sun May  3 05:39:24 2026 ] 	Mean training loss: 0.2271.  Mean training acc: 91.67%.
+[ Sun May  3 05:39:24 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:39:24 2026 ] Eval epoch: 45
+[ Sun May  3 05:39:45 2026 ] 	Mean test loss (119 batches): 7.7732
+[ Sun May  3 05:39:45 2026 ] 	Top1: 20.04%
+[ Sun May  3 05:39:45 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.00      0.00      0.00       758
+        fall       0.20      1.00      0.33       190
+
+    accuracy                           0.20       948
+   macro avg       0.10      0.50      0.17       948
+weighted avg       0.04      0.20      0.07       948
+
+[ Sun May  3 05:39:45 2026 ] 	Balanced Accuracy: 50.00%
+[ Sun May  3 05:39:45 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 05:39:45 2026 ] 	Specificity (Non-Fall Recall): 0.00%
+[ Sun May  3 05:39:45 2026 ] 	TP= 190  TN=   0  FP= 758  FN=   0
+[ Sun May  3 05:39:45 2026 ] 	AUC-ROC: 0.9754
+[ Sun May  3 05:39:45 2026 ] Training epoch: 46
+[ Sun May  3 05:40:51 2026 ] 	Mean training loss: 0.1879.  Mean training acc: 92.86%.
+[ Sun May  3 05:40:51 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:40:51 2026 ] Eval epoch: 46
+[ Sun May  3 05:41:12 2026 ] 	Mean test loss (119 batches): 0.1554
+[ Sun May  3 05:41:12 2026 ] 	Top1: 94.51%
+[ Sun May  3 05:41:12 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.96      0.97      0.97       758
+        fall       0.87      0.85      0.86       190
+
+    accuracy                           0.95       948
+   macro avg       0.92      0.91      0.91       948
+weighted avg       0.94      0.95      0.94       948
+
+[ Sun May  3 05:41:12 2026 ] 	Balanced Accuracy: 91.05%
+[ Sun May  3 05:41:12 2026 ] 	Sensitivity (Fall Recall)    : 85.26%
+[ Sun May  3 05:41:12 2026 ] 	Specificity (Non-Fall Recall): 96.83%
+[ Sun May  3 05:41:12 2026 ] 	TP= 162  TN= 734  FP=  24  FN=  28
+[ Sun May  3 05:41:12 2026 ] 	AUC-ROC: 0.9781
+[ Sun May  3 05:41:12 2026 ] Training epoch: 47
+[ Sun May  3 05:42:18 2026 ] 	Mean training loss: 0.1592.  Mean training acc: 94.18%.
+[ Sun May  3 05:42:18 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:42:18 2026 ] Eval epoch: 47
+[ Sun May  3 05:42:39 2026 ] 	Mean test loss (119 batches): 0.9530
+[ Sun May  3 05:42:39 2026 ] 	Top1: 62.24%
+[ Sun May  3 05:42:39 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.53      0.69       758
+        fall       0.35      1.00      0.51       190
+
+    accuracy                           0.62       948
+   macro avg       0.67      0.76      0.60       948
+weighted avg       0.87      0.62      0.66       948
+
+[ Sun May  3 05:42:39 2026 ] 	Balanced Accuracy: 76.39%
+[ Sun May  3 05:42:39 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 05:42:39 2026 ] 	Specificity (Non-Fall Recall): 52.77%
+[ Sun May  3 05:42:39 2026 ] 	TP= 190  TN= 400  FP= 358  FN=   0
+[ Sun May  3 05:42:39 2026 ] 	AUC-ROC: 0.9934
+[ Sun May  3 05:42:40 2026 ] Training epoch: 48
+[ Sun May  3 05:43:45 2026 ] 	Mean training loss: 0.1966.  Mean training acc: 92.72%.
+[ Sun May  3 05:43:45 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:43:45 2026 ] Eval epoch: 48
+[ Sun May  3 05:44:07 2026 ] 	Mean test loss (119 batches): 2.4757
+[ Sun May  3 05:44:07 2026 ] 	Top1: 20.04%
+[ Sun May  3 05:44:07 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.00      0.00      0.00       758
+        fall       0.20      1.00      0.33       190
+
+    accuracy                           0.20       948
+   macro avg       0.10      0.50      0.17       948
+weighted avg       0.04      0.20      0.07       948
+
+[ Sun May  3 05:44:07 2026 ] 	Balanced Accuracy: 50.00%
+[ Sun May  3 05:44:07 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 05:44:07 2026 ] 	Specificity (Non-Fall Recall): 0.00%
+[ Sun May  3 05:44:07 2026 ] 	TP= 190  TN=   0  FP= 758  FN=   0
+[ Sun May  3 05:44:07 2026 ] 	AUC-ROC: 0.9701
+[ Sun May  3 05:44:07 2026 ] Training epoch: 49
+[ Sun May  3 05:45:13 2026 ] 	Mean training loss: 0.1960.  Mean training acc: 93.19%.
+[ Sun May  3 05:45:13 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:45:13 2026 ] Eval epoch: 49
+[ Sun May  3 05:45:35 2026 ] 	Mean test loss (119 batches): 0.1229
+[ Sun May  3 05:45:35 2026 ] 	Top1: 96.20%
+[ Sun May  3 05:45:35 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.96      0.98       758
+        fall       0.85      0.99      0.91       190
+
+    accuracy                           0.96       948
+   macro avg       0.92      0.97      0.94       948
+weighted avg       0.97      0.96      0.96       948
+
+[ Sun May  3 05:45:35 2026 ] 	Balanced Accuracy: 97.23%
+[ Sun May  3 05:45:35 2026 ] 	Sensitivity (Fall Recall)    : 98.95%
+[ Sun May  3 05:45:35 2026 ] 	Specificity (Non-Fall Recall): 95.51%
+[ Sun May  3 05:45:35 2026 ] 	TP= 188  TN= 724  FP=  34  FN=   2
+[ Sun May  3 05:45:35 2026 ] 	AUC-ROC: 0.9946
+[ Sun May  3 05:45:35 2026 ] Training epoch: 50
+[ Sun May  3 05:46:40 2026 ] 	Mean training loss: 0.1757.  Mean training acc: 94.31%.
+[ Sun May  3 05:46:40 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:46:41 2026 ] Eval epoch: 50
+[ Sun May  3 05:47:02 2026 ] 	Mean test loss (119 batches): 0.2878
+[ Sun May  3 05:47:02 2026 ] 	Top1: 91.88%
+[ Sun May  3 05:47:02 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.91      0.95       758
+        fall       0.72      0.97      0.83       190
+
+    accuracy                           0.92       948
+   macro avg       0.86      0.94      0.89       948
+weighted avg       0.94      0.92      0.92       948
+
+[ Sun May  3 05:47:02 2026 ] 	Balanced Accuracy: 93.93%
+[ Sun May  3 05:47:02 2026 ] 	Sensitivity (Fall Recall)    : 97.37%
+[ Sun May  3 05:47:02 2026 ] 	Specificity (Non-Fall Recall): 90.50%
+[ Sun May  3 05:47:02 2026 ] 	TP= 185  TN= 686  FP=  72  FN=   5
+[ Sun May  3 05:47:02 2026 ] 	AUC-ROC: 0.9792
+[ Sun May  3 05:47:02 2026 ] Training epoch: 51
+[ Sun May  3 05:48:08 2026 ] 	Mean training loss: 0.1518.  Mean training acc: 94.78%.
+[ Sun May  3 05:48:08 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:48:08 2026 ] Eval epoch: 51
+[ Sun May  3 05:48:30 2026 ] 	Mean test loss (119 batches): 0.1056
+[ Sun May  3 05:48:30 2026 ] 	Top1: 96.62%
+[ Sun May  3 05:48:30 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.96      0.98       758
+        fall       0.87      0.98      0.92       190
+
+    accuracy                           0.97       948
+   macro avg       0.93      0.97      0.95       948
+weighted avg       0.97      0.97      0.97       948
+
+[ Sun May  3 05:48:30 2026 ] 	Balanced Accuracy: 97.10%
+[ Sun May  3 05:48:30 2026 ] 	Sensitivity (Fall Recall)    : 97.89%
+[ Sun May  3 05:48:30 2026 ] 	Specificity (Non-Fall Recall): 96.31%
+[ Sun May  3 05:48:30 2026 ] 	TP= 186  TN= 730  FP=  28  FN=   4
+[ Sun May  3 05:48:30 2026 ] 	AUC-ROC: 0.9954
+[ Sun May  3 05:48:30 2026 ] Training epoch: 52
+[ Sun May  3 05:49:36 2026 ] 	Mean training loss: 0.1412.  Mean training acc: 95.11%.
+[ Sun May  3 05:49:36 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:49:36 2026 ] Eval epoch: 52
+[ Sun May  3 05:49:58 2026 ] 	Mean test loss (119 batches): 0.1566
+[ Sun May  3 05:49:58 2026 ] 	Top1: 95.25%
+[ Sun May  3 05:49:58 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.94      0.97       758
+        fall       0.81      0.99      0.89       190
+
+    accuracy                           0.95       948
+   macro avg       0.90      0.97      0.93       948
+weighted avg       0.96      0.95      0.95       948
+
+[ Sun May  3 05:49:58 2026 ] 	Balanced Accuracy: 96.83%
+[ Sun May  3 05:49:58 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 05:49:58 2026 ] 	Specificity (Non-Fall Recall): 94.20%
+[ Sun May  3 05:49:58 2026 ] 	TP= 189  TN= 714  FP=  44  FN=   1
+[ Sun May  3 05:49:58 2026 ] 	AUC-ROC: 0.9951
+[ Sun May  3 05:49:58 2026 ] Training epoch: 53
+[ Sun May  3 05:51:03 2026 ] 	Mean training loss: 0.1411.  Mean training acc: 95.24%.
+[ Sun May  3 05:51:03 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:51:03 2026 ] Eval epoch: 53
+[ Sun May  3 05:51:25 2026 ] 	Mean test loss (119 batches): 0.0826
+[ Sun May  3 05:51:25 2026 ] 	Top1: 97.36%
+[ Sun May  3 05:51:25 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.97      0.98       758
+        fall       0.90      0.97      0.94       190
+
+    accuracy                           0.97       948
+   macro avg       0.95      0.97      0.96       948
+weighted avg       0.98      0.97      0.97       948
+
+[ Sun May  3 05:51:25 2026 ] 	Balanced Accuracy: 97.36%
+[ Sun May  3 05:51:25 2026 ] 	Sensitivity (Fall Recall)    : 97.37%
+[ Sun May  3 05:51:25 2026 ] 	Specificity (Non-Fall Recall): 97.36%
+[ Sun May  3 05:51:25 2026 ] 	TP= 185  TN= 738  FP=  20  FN=   5
+[ Sun May  3 05:51:25 2026 ] 	AUC-ROC: 0.9958
+[ Sun May  3 05:51:25 2026 ] Training epoch: 54
+[ Sun May  3 05:52:30 2026 ] 	Mean training loss: 0.1261.  Mean training acc: 95.70%.
+[ Sun May  3 05:52:30 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:52:30 2026 ] Eval epoch: 54
+[ Sun May  3 05:52:52 2026 ] 	Mean test loss (119 batches): 0.0922
+[ Sun May  3 05:52:52 2026 ] 	Top1: 96.94%
+[ Sun May  3 05:52:52 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.97      0.98       758
+        fall       0.90      0.95      0.93       190
+
+    accuracy                           0.97       948
+   macro avg       0.94      0.96      0.95       948
+weighted avg       0.97      0.97      0.97       948
+
+[ Sun May  3 05:52:52 2026 ] 	Balanced Accuracy: 96.31%
+[ Sun May  3 05:52:52 2026 ] 	Sensitivity (Fall Recall)    : 95.26%
+[ Sun May  3 05:52:52 2026 ] 	Specificity (Non-Fall Recall): 97.36%
+[ Sun May  3 05:52:52 2026 ] 	TP= 181  TN= 738  FP=  20  FN=   9
+[ Sun May  3 05:52:52 2026 ] 	AUC-ROC: 0.9939
+[ Sun May  3 05:52:52 2026 ] Training epoch: 55
+[ Sun May  3 05:53:59 2026 ] 	Mean training loss: 0.1244.  Mean training acc: 96.03%.
+[ Sun May  3 05:53:59 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:53:59 2026 ] Eval epoch: 55
+[ Sun May  3 05:54:21 2026 ] 	Mean test loss (119 batches): 0.6699
+[ Sun May  3 05:54:21 2026 ] 	Top1: 49.26%
+[ Sun May  3 05:54:21 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.37      0.54       758
+        fall       0.28      1.00      0.44       190
+
+    accuracy                           0.49       948
+   macro avg       0.64      0.68      0.49       948
+weighted avg       0.86      0.49      0.52       948
+
+[ Sun May  3 05:54:21 2026 ] 	Balanced Accuracy: 68.27%
+[ Sun May  3 05:54:21 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 05:54:21 2026 ] 	Specificity (Non-Fall Recall): 36.54%
+[ Sun May  3 05:54:21 2026 ] 	TP= 190  TN= 277  FP= 481  FN=   0
+[ Sun May  3 05:54:21 2026 ] 	AUC-ROC: 0.9892
+[ Sun May  3 05:54:21 2026 ] Training epoch: 56
+[ Sun May  3 05:55:26 2026 ] 	Mean training loss: 0.1269.  Mean training acc: 95.17%.
+[ Sun May  3 05:55:26 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:55:26 2026 ] Eval epoch: 56
+[ Sun May  3 05:55:48 2026 ] 	Mean test loss (119 batches): 0.1496
+[ Sun May  3 05:55:48 2026 ] 	Top1: 96.41%
+[ Sun May  3 05:55:48 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.96      0.98       758
+        fall       0.85      1.00      0.92       190
+
+    accuracy                           0.96       948
+   macro avg       0.92      0.98      0.95       948
+weighted avg       0.97      0.96      0.97       948
+
+[ Sun May  3 05:55:48 2026 ] 	Balanced Accuracy: 97.76%
+[ Sun May  3 05:55:48 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 05:55:48 2026 ] 	Specificity (Non-Fall Recall): 95.51%
+[ Sun May  3 05:55:48 2026 ] 	TP= 190  TN= 724  FP=  34  FN=   0
+[ Sun May  3 05:55:48 2026 ] 	AUC-ROC: 0.9979
+[ Sun May  3 05:55:48 2026 ] Training epoch: 57
+[ Sun May  3 05:56:54 2026 ] 	Mean training loss: 0.1184.  Mean training acc: 95.83%.
+[ Sun May  3 05:56:54 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:56:54 2026 ] Eval epoch: 57
+[ Sun May  3 05:57:16 2026 ] 	Mean test loss (119 batches): 0.0994
+[ Sun May  3 05:57:16 2026 ] 	Top1: 97.47%
+[ Sun May  3 05:57:16 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.97      0.98       758
+        fall       0.91      0.97      0.94       190
+
+    accuracy                           0.97       948
+   macro avg       0.95      0.97      0.96       948
+weighted avg       0.98      0.97      0.98       948
+
+[ Sun May  3 05:57:16 2026 ] 	Balanced Accuracy: 97.43%
+[ Sun May  3 05:57:16 2026 ] 	Sensitivity (Fall Recall)    : 97.37%
+[ Sun May  3 05:57:16 2026 ] 	Specificity (Non-Fall Recall): 97.49%
+[ Sun May  3 05:57:16 2026 ] 	TP= 185  TN= 739  FP=  19  FN=   5
+[ Sun May  3 05:57:16 2026 ] 	AUC-ROC: 0.9942
+[ Sun May  3 05:57:16 2026 ] Training epoch: 58
+[ Sun May  3 05:58:22 2026 ] 	Mean training loss: 0.1302.  Mean training acc: 95.17%.
+[ Sun May  3 05:58:22 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:58:22 2026 ] Eval epoch: 58
+[ Sun May  3 05:58:43 2026 ] 	Mean test loss (119 batches): 0.1037
+[ Sun May  3 05:58:43 2026 ] 	Top1: 96.62%
+[ Sun May  3 05:58:43 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.96      0.98       758
+        fall       0.86      1.00      0.92       190
+
+    accuracy                           0.97       948
+   macro avg       0.93      0.98      0.95       948
+weighted avg       0.97      0.97      0.97       948
+
+[ Sun May  3 05:58:43 2026 ] 	Balanced Accuracy: 97.89%
+[ Sun May  3 05:58:43 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 05:58:43 2026 ] 	Specificity (Non-Fall Recall): 95.78%
+[ Sun May  3 05:58:43 2026 ] 	TP= 190  TN= 726  FP=  32  FN=   0
+[ Sun May  3 05:58:43 2026 ] 	AUC-ROC: 0.9988
+[ Sun May  3 05:58:43 2026 ] Training epoch: 59
+[ Sun May  3 05:59:49 2026 ] 	Mean training loss: 0.1155.  Mean training acc: 96.10%.
+[ Sun May  3 05:59:49 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 05:59:49 2026 ] Eval epoch: 59
+[ Sun May  3 06:00:11 2026 ] 	Mean test loss (119 batches): 0.1119
+[ Sun May  3 06:00:11 2026 ] 	Top1: 95.46%
+[ Sun May  3 06:00:11 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.94      0.97       758
+        fall       0.82      1.00      0.90       190
+
+    accuracy                           0.95       948
+   macro avg       0.91      0.97      0.93       948
+weighted avg       0.96      0.95      0.96       948
+
+[ Sun May  3 06:00:11 2026 ] 	Balanced Accuracy: 97.16%
+[ Sun May  3 06:00:11 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:00:11 2026 ] 	Specificity (Non-Fall Recall): 94.33%
+[ Sun May  3 06:00:11 2026 ] 	TP= 190  TN= 715  FP=  43  FN=   0
+[ Sun May  3 06:00:11 2026 ] 	AUC-ROC: 0.9989
+[ Sun May  3 06:00:11 2026 ] Training epoch: 60
+[ Sun May  3 06:01:17 2026 ] 	Mean training loss: 0.1120.  Mean training acc: 96.23%.
+[ Sun May  3 06:01:17 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:01:17 2026 ] Eval epoch: 60
+[ Sun May  3 06:01:40 2026 ] 	Mean test loss (119 batches): 0.0850
+[ Sun May  3 06:01:40 2026 ] 	Top1: 97.57%
+[ Sun May  3 06:01:40 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.98       758
+        fall       0.89      1.00      0.94       190
+
+    accuracy                           0.98       948
+   macro avg       0.95      0.98      0.96       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:01:40 2026 ] 	Balanced Accuracy: 98.48%
+[ Sun May  3 06:01:40 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:01:40 2026 ] 	Specificity (Non-Fall Recall): 96.97%
+[ Sun May  3 06:01:40 2026 ] 	TP= 190  TN= 735  FP=  23  FN=   0
+[ Sun May  3 06:01:40 2026 ] 	AUC-ROC: 0.9982
+[ Sun May  3 06:01:40 2026 ] Training epoch: 61
+[ Sun May  3 06:02:47 2026 ] 	Mean training loss: 0.1037.  Mean training acc: 96.36%.
+[ Sun May  3 06:02:47 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:02:47 2026 ] Eval epoch: 61
+[ Sun May  3 06:03:08 2026 ] 	Mean test loss (119 batches): 0.1166
+[ Sun May  3 06:03:08 2026 ] 	Top1: 96.31%
+[ Sun May  3 06:03:08 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.96      0.98       758
+        fall       0.85      0.99      0.92       190
+
+    accuracy                           0.96       948
+   macro avg       0.92      0.97      0.95       948
+weighted avg       0.97      0.96      0.96       948
+
+[ Sun May  3 06:03:08 2026 ] 	Balanced Accuracy: 97.49%
+[ Sun May  3 06:03:08 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:03:08 2026 ] 	Specificity (Non-Fall Recall): 95.51%
+[ Sun May  3 06:03:08 2026 ] 	TP= 189  TN= 724  FP=  34  FN=   1
+[ Sun May  3 06:03:08 2026 ] 	AUC-ROC: 0.9970
+[ Sun May  3 06:03:08 2026 ] Training epoch: 62
+[ Sun May  3 06:04:15 2026 ] 	Mean training loss: 0.1011.  Mean training acc: 96.56%.
+[ Sun May  3 06:04:15 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:04:15 2026 ] Eval epoch: 62
+[ Sun May  3 06:04:37 2026 ] 	Mean test loss (119 batches): 0.0854
+[ Sun May  3 06:04:37 2026 ] 	Top1: 97.26%
+[ Sun May  3 06:04:37 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.98       758
+        fall       0.88      1.00      0.94       190
+
+    accuracy                           0.97       948
+   macro avg       0.94      0.98      0.96       948
+weighted avg       0.98      0.97      0.97       948
+
+[ Sun May  3 06:04:37 2026 ] 	Balanced Accuracy: 98.28%
+[ Sun May  3 06:04:37 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:04:37 2026 ] 	Specificity (Non-Fall Recall): 96.57%
+[ Sun May  3 06:04:37 2026 ] 	TP= 190  TN= 732  FP=  26  FN=   0
+[ Sun May  3 06:04:37 2026 ] 	AUC-ROC: 0.9988
+[ Sun May  3 06:04:37 2026 ] Training epoch: 63
+[ Sun May  3 06:05:44 2026 ] 	Mean training loss: 0.1223.  Mean training acc: 95.37%.
+[ Sun May  3 06:05:44 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:05:44 2026 ] Eval epoch: 63
+[ Sun May  3 06:06:05 2026 ] 	Mean test loss (119 batches): 0.0925
+[ Sun May  3 06:06:05 2026 ] 	Top1: 97.47%
+[ Sun May  3 06:06:05 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.98       758
+        fall       0.89      1.00      0.94       190
+
+    accuracy                           0.97       948
+   macro avg       0.94      0.98      0.96       948
+weighted avg       0.98      0.97      0.98       948
+
+[ Sun May  3 06:06:05 2026 ] 	Balanced Accuracy: 98.42%
+[ Sun May  3 06:06:05 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:06:05 2026 ] 	Specificity (Non-Fall Recall): 96.83%
+[ Sun May  3 06:06:05 2026 ] 	TP= 190  TN= 734  FP=  24  FN=   0
+[ Sun May  3 06:06:05 2026 ] 	AUC-ROC: 0.9981
+[ Sun May  3 06:06:05 2026 ] Training epoch: 64
+[ Sun May  3 06:07:12 2026 ] 	Mean training loss: 0.1168.  Mean training acc: 95.90%.
+[ Sun May  3 06:07:12 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:07:12 2026 ] Eval epoch: 64
+[ Sun May  3 06:07:33 2026 ] 	Mean test loss (119 batches): 0.1982
+[ Sun May  3 06:07:33 2026 ] 	Top1: 93.57%
+[ Sun May  3 06:07:33 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.92      0.96       758
+        fall       0.76      0.99      0.86       190
+
+    accuracy                           0.94       948
+   macro avg       0.88      0.96      0.91       948
+weighted avg       0.95      0.94      0.94       948
+
+[ Sun May  3 06:07:33 2026 ] 	Balanced Accuracy: 95.78%
+[ Sun May  3 06:07:33 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:07:33 2026 ] 	Specificity (Non-Fall Recall): 92.08%
+[ Sun May  3 06:07:33 2026 ] 	TP= 189  TN= 698  FP=  60  FN=   1
+[ Sun May  3 06:07:33 2026 ] 	AUC-ROC: 0.9978
+[ Sun May  3 06:07:33 2026 ] Training epoch: 65
+[ Sun May  3 06:08:39 2026 ] 	Mean training loss: 0.0986.  Mean training acc: 96.63%.
+[ Sun May  3 06:08:39 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:08:39 2026 ] Eval epoch: 65
+[ Sun May  3 06:09:00 2026 ] 	Mean test loss (119 batches): 0.2398
+[ Sun May  3 06:09:00 2026 ] 	Top1: 93.46%
+[ Sun May  3 06:09:00 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.92      0.96       758
+        fall       0.75      1.00      0.86       190
+
+    accuracy                           0.93       948
+   macro avg       0.88      0.96      0.91       948
+weighted avg       0.95      0.93      0.94       948
+
+[ Sun May  3 06:09:00 2026 ] 	Balanced Accuracy: 95.91%
+[ Sun May  3 06:09:00 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:09:00 2026 ] 	Specificity (Non-Fall Recall): 91.82%
+[ Sun May  3 06:09:00 2026 ] 	TP= 190  TN= 696  FP=  62  FN=   0
+[ Sun May  3 06:09:00 2026 ] 	AUC-ROC: 0.9964
+[ Sun May  3 06:09:00 2026 ] Training epoch: 66
+[ Sun May  3 06:10:06 2026 ] 	Mean training loss: 0.1152.  Mean training acc: 96.23%.
+[ Sun May  3 06:10:06 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:10:06 2026 ] Eval epoch: 66
+[ Sun May  3 06:10:28 2026 ] 	Mean test loss (119 batches): 0.1121
+[ Sun May  3 06:10:28 2026 ] 	Top1: 95.36%
+[ Sun May  3 06:10:28 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.96      0.98      0.97       758
+        fall       0.91      0.85      0.88       190
+
+    accuracy                           0.95       948
+   macro avg       0.94      0.92      0.93       948
+weighted avg       0.95      0.95      0.95       948
+
+[ Sun May  3 06:10:28 2026 ] 	Balanced Accuracy: 91.58%
+[ Sun May  3 06:10:28 2026 ] 	Sensitivity (Fall Recall)    : 85.26%
+[ Sun May  3 06:10:28 2026 ] 	Specificity (Non-Fall Recall): 97.89%
+[ Sun May  3 06:10:28 2026 ] 	TP= 162  TN= 742  FP=  16  FN=  28
+[ Sun May  3 06:10:28 2026 ] 	AUC-ROC: 0.9902
+[ Sun May  3 06:10:28 2026 ] Training epoch: 67
+[ Sun May  3 06:11:35 2026 ] 	Mean training loss: 0.1132.  Mean training acc: 95.90%.
+[ Sun May  3 06:11:35 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:11:35 2026 ] Eval epoch: 67
+[ Sun May  3 06:11:57 2026 ] 	Mean test loss (119 batches): 0.4742
+[ Sun May  3 06:11:57 2026 ] 	Top1: 75.21%
+[ Sun May  3 06:11:57 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.69      0.82       758
+        fall       0.45      1.00      0.62       190
+
+    accuracy                           0.75       948
+   macro avg       0.72      0.84      0.72       948
+weighted avg       0.89      0.75      0.78       948
+
+[ Sun May  3 06:11:57 2026 ] 	Balanced Accuracy: 84.50%
+[ Sun May  3 06:11:57 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:11:57 2026 ] 	Specificity (Non-Fall Recall): 69.00%
+[ Sun May  3 06:11:57 2026 ] 	TP= 190  TN= 523  FP= 235  FN=   0
+[ Sun May  3 06:11:57 2026 ] 	AUC-ROC: 0.9845
+[ Sun May  3 06:11:57 2026 ] Training epoch: 68
+[ Sun May  3 06:13:03 2026 ] 	Mean training loss: 0.0883.  Mean training acc: 96.56%.
+[ Sun May  3 06:13:03 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:13:03 2026 ] Eval epoch: 68
+[ Sun May  3 06:13:25 2026 ] 	Mean test loss (119 batches): 0.2542
+[ Sun May  3 06:13:25 2026 ] 	Top1: 94.30%
+[ Sun May  3 06:13:25 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.93      0.96       758
+        fall       0.79      0.98      0.87       190
+
+    accuracy                           0.94       948
+   macro avg       0.89      0.96      0.92       948
+weighted avg       0.95      0.94      0.95       948
+
+[ Sun May  3 06:13:25 2026 ] 	Balanced Accuracy: 95.65%
+[ Sun May  3 06:13:25 2026 ] 	Sensitivity (Fall Recall)    : 97.89%
+[ Sun May  3 06:13:25 2026 ] 	Specificity (Non-Fall Recall): 93.40%
+[ Sun May  3 06:13:25 2026 ] 	TP= 186  TN= 708  FP=  50  FN=   4
+[ Sun May  3 06:13:25 2026 ] 	AUC-ROC: 0.9853
+[ Sun May  3 06:13:25 2026 ] Training epoch: 69
+[ Sun May  3 06:14:32 2026 ] 	Mean training loss: 0.1114.  Mean training acc: 96.10%.
+[ Sun May  3 06:14:32 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:14:32 2026 ] Eval epoch: 69
+[ Sun May  3 06:14:54 2026 ] 	Mean test loss (119 batches): 0.1658
+[ Sun May  3 06:14:54 2026 ] 	Top1: 92.09%
+[ Sun May  3 06:14:54 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.92      0.99      0.95       758
+        fall       0.95      0.64      0.76       190
+
+    accuracy                           0.92       948
+   macro avg       0.93      0.82      0.86       948
+weighted avg       0.92      0.92      0.91       948
+
+[ Sun May  3 06:14:54 2026 ] 	Balanced Accuracy: 81.64%
+[ Sun May  3 06:14:54 2026 ] 	Sensitivity (Fall Recall)    : 64.21%
+[ Sun May  3 06:14:54 2026 ] 	Specificity (Non-Fall Recall): 99.08%
+[ Sun May  3 06:14:54 2026 ] 	TP= 122  TN= 751  FP=   7  FN=  68
+[ Sun May  3 06:14:54 2026 ] 	AUC-ROC: 0.9896
+[ Sun May  3 06:14:54 2026 ] Training epoch: 70
+[ Sun May  3 06:16:01 2026 ] 	Mean training loss: 0.0945.  Mean training acc: 96.30%.
+[ Sun May  3 06:16:01 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:16:01 2026 ] Eval epoch: 70
+[ Sun May  3 06:16:23 2026 ] 	Mean test loss (119 batches): 0.2124
+[ Sun May  3 06:16:23 2026 ] 	Top1: 89.14%
+[ Sun May  3 06:16:23 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.89      0.99      0.94       758
+        fall       0.91      0.51      0.65       190
+
+    accuracy                           0.89       948
+   macro avg       0.90      0.75      0.79       948
+weighted avg       0.89      0.89      0.88       948
+
+[ Sun May  3 06:16:23 2026 ] 	Balanced Accuracy: 74.67%
+[ Sun May  3 06:16:23 2026 ] 	Sensitivity (Fall Recall)    : 50.53%
+[ Sun May  3 06:16:23 2026 ] 	Specificity (Non-Fall Recall): 98.81%
+[ Sun May  3 06:16:23 2026 ] 	TP=  96  TN= 749  FP=   9  FN=  94
+[ Sun May  3 06:16:23 2026 ] 	AUC-ROC: 0.9814
+[ Sun May  3 06:16:23 2026 ] Training epoch: 71
+[ Sun May  3 06:17:30 2026 ] 	Mean training loss: 0.0997.  Mean training acc: 96.16%.
+[ Sun May  3 06:17:30 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:17:30 2026 ] Eval epoch: 71
+[ Sun May  3 06:17:51 2026 ] 	Mean test loss (119 batches): 0.0627
+[ Sun May  3 06:17:51 2026 ] 	Top1: 97.47%
+[ Sun May  3 06:17:51 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.97      0.98       758
+        fall       0.90      0.98      0.94       190
+
+    accuracy                           0.97       948
+   macro avg       0.95      0.98      0.96       948
+weighted avg       0.98      0.97      0.98       948
+
+[ Sun May  3 06:17:51 2026 ] 	Balanced Accuracy: 97.63%
+[ Sun May  3 06:17:51 2026 ] 	Sensitivity (Fall Recall)    : 97.89%
+[ Sun May  3 06:17:51 2026 ] 	Specificity (Non-Fall Recall): 97.36%
+[ Sun May  3 06:17:51 2026 ] 	TP= 186  TN= 738  FP=  20  FN=   4
+[ Sun May  3 06:17:51 2026 ] 	AUC-ROC: 0.9982
+[ Sun May  3 06:17:52 2026 ] Training epoch: 72
+[ Sun May  3 06:18:59 2026 ] 	Mean training loss: 0.0914.  Mean training acc: 96.69%.
+[ Sun May  3 06:18:59 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:18:59 2026 ] Eval epoch: 72
+[ Sun May  3 06:19:20 2026 ] 	Mean test loss (119 batches): 0.0675
+[ Sun May  3 06:19:20 2026 ] 	Top1: 97.26%
+[ Sun May  3 06:19:20 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.98       758
+        fall       0.88      0.99      0.94       190
+
+    accuracy                           0.97       948
+   macro avg       0.94      0.98      0.96       948
+weighted avg       0.98      0.97      0.97       948
+
+[ Sun May  3 06:19:20 2026 ] 	Balanced Accuracy: 98.09%
+[ Sun May  3 06:19:20 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:19:20 2026 ] 	Specificity (Non-Fall Recall): 96.70%
+[ Sun May  3 06:19:20 2026 ] 	TP= 189  TN= 733  FP=  25  FN=   1
+[ Sun May  3 06:19:20 2026 ] 	AUC-ROC: 0.9988
+[ Sun May  3 06:19:20 2026 ] Training epoch: 73
+[ Sun May  3 06:20:26 2026 ] 	Mean training loss: 0.0985.  Mean training acc: 96.30%.
+[ Sun May  3 06:20:26 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:20:26 2026 ] Eval epoch: 73
+[ Sun May  3 06:20:48 2026 ] 	Mean test loss (119 batches): 0.0577
+[ Sun May  3 06:20:48 2026 ] 	Top1: 97.68%
+[ Sun May  3 06:20:48 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.99       758
+        fall       0.90      0.99      0.94       190
+
+    accuracy                           0.98       948
+   macro avg       0.95      0.98      0.97       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:20:48 2026 ] 	Balanced Accuracy: 98.35%
+[ Sun May  3 06:20:48 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:20:48 2026 ] 	Specificity (Non-Fall Recall): 97.23%
+[ Sun May  3 06:20:48 2026 ] 	TP= 189  TN= 737  FP=  21  FN=   1
+[ Sun May  3 06:20:48 2026 ] 	AUC-ROC: 0.9988
+[ Sun May  3 06:20:48 2026 ] Training epoch: 74
+[ Sun May  3 06:21:55 2026 ] 	Mean training loss: 0.0951.  Mean training acc: 96.49%.
+[ Sun May  3 06:21:55 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:21:55 2026 ] Eval epoch: 74
+[ Sun May  3 06:22:18 2026 ] 	Mean test loss (119 batches): 0.0520
+[ Sun May  3 06:22:18 2026 ] 	Top1: 97.89%
+[ Sun May  3 06:22:18 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.98      0.99       758
+        fall       0.92      0.98      0.95       190
+
+    accuracy                           0.98       948
+   macro avg       0.96      0.98      0.97       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:22:18 2026 ] 	Balanced Accuracy: 98.09%
+[ Sun May  3 06:22:18 2026 ] 	Sensitivity (Fall Recall)    : 98.42%
+[ Sun May  3 06:22:18 2026 ] 	Specificity (Non-Fall Recall): 97.76%
+[ Sun May  3 06:22:18 2026 ] 	TP= 187  TN= 741  FP=  17  FN=   3
+[ Sun May  3 06:22:18 2026 ] 	AUC-ROC: 0.9985
+[ Sun May  3 06:22:18 2026 ] Training epoch: 75
+[ Sun May  3 06:23:24 2026 ] 	Mean training loss: 0.1116.  Mean training acc: 96.49%.
+[ Sun May  3 06:23:24 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:23:24 2026 ] Eval epoch: 75
+[ Sun May  3 06:23:46 2026 ] 	Mean test loss (119 batches): 0.0624
+[ Sun May  3 06:23:46 2026 ] 	Top1: 97.26%
+[ Sun May  3 06:23:46 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.98      0.98       758
+        fall       0.91      0.95      0.93       190
+
+    accuracy                           0.97       948
+   macro avg       0.95      0.97      0.96       948
+weighted avg       0.97      0.97      0.97       948
+
+[ Sun May  3 06:23:46 2026 ] 	Balanced Accuracy: 96.51%
+[ Sun May  3 06:23:46 2026 ] 	Sensitivity (Fall Recall)    : 95.26%
+[ Sun May  3 06:23:46 2026 ] 	Specificity (Non-Fall Recall): 97.76%
+[ Sun May  3 06:23:46 2026 ] 	TP= 181  TN= 741  FP=  17  FN=   9
+[ Sun May  3 06:23:46 2026 ] 	AUC-ROC: 0.9970
+[ Sun May  3 06:23:46 2026 ] Training epoch: 76
+[ Sun May  3 06:24:52 2026 ] 	Mean training loss: 0.1010.  Mean training acc: 96.83%.
+[ Sun May  3 06:24:52 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:24:52 2026 ] Eval epoch: 76
+[ Sun May  3 06:25:14 2026 ] 	Mean test loss (119 batches): 0.0594
+[ Sun May  3 06:25:14 2026 ] 	Top1: 97.68%
+[ Sun May  3 06:25:14 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.99       758
+        fall       0.91      0.98      0.94       190
+
+    accuracy                           0.98       948
+   macro avg       0.95      0.98      0.96       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:25:14 2026 ] 	Balanced Accuracy: 97.96%
+[ Sun May  3 06:25:14 2026 ] 	Sensitivity (Fall Recall)    : 98.42%
+[ Sun May  3 06:25:14 2026 ] 	Specificity (Non-Fall Recall): 97.49%
+[ Sun May  3 06:25:14 2026 ] 	TP= 187  TN= 739  FP=  19  FN=   3
+[ Sun May  3 06:25:14 2026 ] 	AUC-ROC: 0.9983
+[ Sun May  3 06:25:14 2026 ] Training epoch: 77
+[ Sun May  3 06:26:21 2026 ] 	Mean training loss: 0.0981.  Mean training acc: 96.63%.
+[ Sun May  3 06:26:21 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:26:21 2026 ] Eval epoch: 77
+[ Sun May  3 06:26:44 2026 ] 	Mean test loss (119 batches): 0.0534
+[ Sun May  3 06:26:44 2026 ] 	Top1: 98.10%
+[ Sun May  3 06:26:44 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.98      0.99       758
+        fall       0.92      0.99      0.95       190
+
+    accuracy                           0.98       948
+   macro avg       0.96      0.99      0.97       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:26:44 2026 ] 	Balanced Accuracy: 98.62%
+[ Sun May  3 06:26:44 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:26:44 2026 ] 	Specificity (Non-Fall Recall): 97.76%
+[ Sun May  3 06:26:44 2026 ] 	TP= 189  TN= 741  FP=  17  FN=   1
+[ Sun May  3 06:26:44 2026 ] 	AUC-ROC: 0.9988
+[ Sun May  3 06:26:44 2026 ] Training epoch: 78
+[ Sun May  3 06:27:51 2026 ] 	Mean training loss: 0.0944.  Mean training acc: 96.76%.
+[ Sun May  3 06:27:51 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:27:51 2026 ] Eval epoch: 78
+[ Sun May  3 06:28:13 2026 ] 	Mean test loss (119 batches): 0.0683
+[ Sun May  3 06:28:13 2026 ] 	Top1: 97.68%
+[ Sun May  3 06:28:13 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.99       758
+        fall       0.90      0.99      0.94       190
+
+    accuracy                           0.98       948
+   macro avg       0.95      0.98      0.97       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:28:13 2026 ] 	Balanced Accuracy: 98.35%
+[ Sun May  3 06:28:13 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:28:13 2026 ] 	Specificity (Non-Fall Recall): 97.23%
+[ Sun May  3 06:28:13 2026 ] 	TP= 189  TN= 737  FP=  21  FN=   1
+[ Sun May  3 06:28:13 2026 ] 	AUC-ROC: 0.9988
+[ Sun May  3 06:28:13 2026 ] Training epoch: 79
+[ Sun May  3 06:29:20 2026 ] 	Mean training loss: 0.0715.  Mean training acc: 97.29%.
+[ Sun May  3 06:29:20 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:29:20 2026 ] Eval epoch: 79
+[ Sun May  3 06:29:42 2026 ] 	Mean test loss (119 batches): 0.0757
+[ Sun May  3 06:29:42 2026 ] 	Top1: 97.05%
+[ Sun May  3 06:29:42 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.96      0.98       758
+        fall       0.87      1.00      0.93       190
+
+    accuracy                           0.97       948
+   macro avg       0.94      0.98      0.96       948
+weighted avg       0.97      0.97      0.97       948
+
+[ Sun May  3 06:29:42 2026 ] 	Balanced Accuracy: 98.15%
+[ Sun May  3 06:29:42 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:29:42 2026 ] 	Specificity (Non-Fall Recall): 96.31%
+[ Sun May  3 06:29:42 2026 ] 	TP= 190  TN= 730  FP=  28  FN=   0
+[ Sun May  3 06:29:42 2026 ] 	AUC-ROC: 0.9991
+[ Sun May  3 06:29:42 2026 ] Training epoch: 80
+[ Sun May  3 06:30:49 2026 ] 	Mean training loss: 0.1054.  Mean training acc: 96.16%.
+[ Sun May  3 06:30:49 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:30:49 2026 ] Eval epoch: 80
+[ Sun May  3 06:31:10 2026 ] 	Mean test loss (119 batches): 0.0651
+[ Sun May  3 06:31:10 2026 ] 	Top1: 97.36%
+[ Sun May  3 06:31:10 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       0.99      0.97      0.98       758
+        fall       0.90      0.98      0.94       190
+
+    accuracy                           0.97       948
+   macro avg       0.95      0.98      0.96       948
+weighted avg       0.98      0.97      0.97       948
+
+[ Sun May  3 06:31:10 2026 ] 	Balanced Accuracy: 97.56%
+[ Sun May  3 06:31:10 2026 ] 	Sensitivity (Fall Recall)    : 97.89%
+[ Sun May  3 06:31:10 2026 ] 	Specificity (Non-Fall Recall): 97.23%
+[ Sun May  3 06:31:10 2026 ] 	TP= 186  TN= 737  FP=  21  FN=   4
+[ Sun May  3 06:31:10 2026 ] 	AUC-ROC: 0.9983
+[ Sun May  3 06:31:10 2026 ] Training epoch: 81
+[ Sun May  3 06:32:18 2026 ] 	Mean training loss: 0.0886.  Mean training acc: 96.76%.
+[ Sun May  3 06:32:18 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:32:18 2026 ] Eval epoch: 81
+[ Sun May  3 06:32:39 2026 ] 	Mean test loss (119 batches): 0.0790
+[ Sun May  3 06:32:39 2026 ] 	Top1: 97.36%
+[ Sun May  3 06:32:39 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.98       758
+        fall       0.88      1.00      0.94       190
+
+    accuracy                           0.97       948
+   macro avg       0.94      0.98      0.96       948
+weighted avg       0.98      0.97      0.97       948
+
+[ Sun May  3 06:32:39 2026 ] 	Balanced Accuracy: 98.35%
+[ Sun May  3 06:32:39 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:32:39 2026 ] 	Specificity (Non-Fall Recall): 96.70%
+[ Sun May  3 06:32:39 2026 ] 	TP= 190  TN= 733  FP=  25  FN=   0
+[ Sun May  3 06:32:39 2026 ] 	AUC-ROC: 0.9992
+[ Sun May  3 06:32:39 2026 ] Training epoch: 82
+[ Sun May  3 06:33:46 2026 ] 	Mean training loss: 0.0759.  Mean training acc: 97.16%.
+[ Sun May  3 06:33:46 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:33:46 2026 ] Eval epoch: 82
+[ Sun May  3 06:34:07 2026 ] 	Mean test loss (119 batches): 0.0517
+[ Sun May  3 06:34:07 2026 ] 	Top1: 98.21%
+[ Sun May  3 06:34:07 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.98      0.99       758
+        fall       0.92      0.99      0.96       190
+
+    accuracy                           0.98       948
+   macro avg       0.96      0.99      0.97       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:34:07 2026 ] 	Balanced Accuracy: 98.68%
+[ Sun May  3 06:34:07 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:34:07 2026 ] 	Specificity (Non-Fall Recall): 97.89%
+[ Sun May  3 06:34:07 2026 ] 	TP= 189  TN= 742  FP=  16  FN=   1
+[ Sun May  3 06:34:07 2026 ] 	AUC-ROC: 0.9989
+[ Sun May  3 06:34:07 2026 ] Training epoch: 83
+[ Sun May  3 06:35:14 2026 ] 	Mean training loss: 0.1030.  Mean training acc: 96.49%.
+[ Sun May  3 06:35:14 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:35:14 2026 ] Eval epoch: 83
+[ Sun May  3 06:35:35 2026 ] 	Mean test loss (119 batches): 0.0493
+[ Sun May  3 06:35:35 2026 ] 	Top1: 98.10%
+[ Sun May  3 06:35:35 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.98      0.99       758
+        fall       0.92      0.99      0.95       190
+
+    accuracy                           0.98       948
+   macro avg       0.96      0.99      0.97       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:35:35 2026 ] 	Balanced Accuracy: 98.62%
+[ Sun May  3 06:35:35 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:35:35 2026 ] 	Specificity (Non-Fall Recall): 97.76%
+[ Sun May  3 06:35:35 2026 ] 	TP= 189  TN= 741  FP=  17  FN=   1
+[ Sun May  3 06:35:35 2026 ] 	AUC-ROC: 0.9988
+[ Sun May  3 06:35:35 2026 ] Training epoch: 84
+[ Sun May  3 06:36:42 2026 ] 	Mean training loss: 0.0755.  Mean training acc: 97.82%.
+[ Sun May  3 06:36:42 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:36:42 2026 ] Eval epoch: 84
+[ Sun May  3 06:37:04 2026 ] 	Mean test loss (119 batches): 0.0781
+[ Sun May  3 06:37:04 2026 ] 	Top1: 97.15%
+[ Sun May  3 06:37:04 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.96      0.98       758
+        fall       0.88      1.00      0.93       190
+
+    accuracy                           0.97       948
+   macro avg       0.94      0.98      0.96       948
+weighted avg       0.98      0.97      0.97       948
+
+[ Sun May  3 06:37:04 2026 ] 	Balanced Accuracy: 98.22%
+[ Sun May  3 06:37:04 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:37:04 2026 ] 	Specificity (Non-Fall Recall): 96.44%
+[ Sun May  3 06:37:04 2026 ] 	TP= 190  TN= 731  FP=  27  FN=   0
+[ Sun May  3 06:37:04 2026 ] 	AUC-ROC: 0.9990
+[ Sun May  3 06:37:04 2026 ] Training epoch: 85
+[ Sun May  3 06:38:11 2026 ] 	Mean training loss: 0.0797.  Mean training acc: 97.49%.
+[ Sun May  3 06:38:11 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:38:11 2026 ] Eval epoch: 85
+[ Sun May  3 06:38:33 2026 ] 	Mean test loss (119 batches): 0.0600
+[ Sun May  3 06:38:33 2026 ] 	Top1: 97.89%
+[ Sun May  3 06:38:33 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.99       758
+        fall       0.91      0.99      0.95       190
+
+    accuracy                           0.98       948
+   macro avg       0.95      0.98      0.97       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:38:33 2026 ] 	Balanced Accuracy: 98.48%
+[ Sun May  3 06:38:33 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:38:33 2026 ] 	Specificity (Non-Fall Recall): 97.49%
+[ Sun May  3 06:38:33 2026 ] 	TP= 189  TN= 739  FP=  19  FN=   1
+[ Sun May  3 06:38:33 2026 ] 	AUC-ROC: 0.9985
+[ Sun May  3 06:38:33 2026 ] Training epoch: 86
+[ Sun May  3 06:39:40 2026 ] 	Mean training loss: 0.0961.  Mean training acc: 96.76%.
+[ Sun May  3 06:39:40 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:39:41 2026 ] Eval epoch: 86
+[ Sun May  3 06:40:02 2026 ] 	Mean test loss (119 batches): 0.0635
+[ Sun May  3 06:40:02 2026 ] 	Top1: 97.78%
+[ Sun May  3 06:40:02 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.99       758
+        fall       0.90      0.99      0.95       190
+
+    accuracy                           0.98       948
+   macro avg       0.95      0.98      0.97       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:40:02 2026 ] 	Balanced Accuracy: 98.42%
+[ Sun May  3 06:40:02 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:40:02 2026 ] 	Specificity (Non-Fall Recall): 97.36%
+[ Sun May  3 06:40:02 2026 ] 	TP= 189  TN= 738  FP=  20  FN=   1
+[ Sun May  3 06:40:02 2026 ] 	AUC-ROC: 0.9978
+[ Sun May  3 06:40:02 2026 ] Training epoch: 87
+[ Sun May  3 06:41:10 2026 ] 	Mean training loss: 0.0952.  Mean training acc: 96.76%.
+[ Sun May  3 06:41:10 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:41:10 2026 ] Eval epoch: 87
+[ Sun May  3 06:41:32 2026 ] 	Mean test loss (119 batches): 0.1449
+[ Sun May  3 06:41:32 2026 ] 	Top1: 94.62%
+[ Sun May  3 06:41:32 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.93      0.97       758
+        fall       0.79      1.00      0.88       190
+
+    accuracy                           0.95       948
+   macro avg       0.89      0.97      0.92       948
+weighted avg       0.96      0.95      0.95       948
+
+[ Sun May  3 06:41:32 2026 ] 	Balanced Accuracy: 96.64%
+[ Sun May  3 06:41:32 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:41:32 2026 ] 	Specificity (Non-Fall Recall): 93.27%
+[ Sun May  3 06:41:32 2026 ] 	TP= 190  TN= 707  FP=  51  FN=   0
+[ Sun May  3 06:41:32 2026 ] 	AUC-ROC: 0.9992
+[ Sun May  3 06:41:32 2026 ] Training epoch: 88
+[ Sun May  3 06:42:38 2026 ] 	Mean training loss: 0.0851.  Mean training acc: 96.89%.
+[ Sun May  3 06:42:38 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:42:38 2026 ] Eval epoch: 88
+[ Sun May  3 06:43:00 2026 ] 	Mean test loss (119 batches): 0.0546
+[ Sun May  3 06:43:00 2026 ] 	Top1: 97.89%
+[ Sun May  3 06:43:00 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.97      0.99       758
+        fall       0.91      0.99      0.95       190
+
+    accuracy                           0.98       948
+   macro avg       0.95      0.98      0.97       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:43:00 2026 ] 	Balanced Accuracy: 98.48%
+[ Sun May  3 06:43:00 2026 ] 	Sensitivity (Fall Recall)    : 99.47%
+[ Sun May  3 06:43:00 2026 ] 	Specificity (Non-Fall Recall): 97.49%
+[ Sun May  3 06:43:00 2026 ] 	TP= 189  TN= 739  FP=  19  FN=   1
+[ Sun May  3 06:43:00 2026 ] 	AUC-ROC: 0.9989
+[ Sun May  3 06:43:00 2026 ] Training epoch: 89
+[ Sun May  3 06:44:07 2026 ] 	Mean training loss: 0.0886.  Mean training acc: 97.16%.
+[ Sun May  3 06:44:07 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:44:07 2026 ] Eval epoch: 89
+[ Sun May  3 06:44:30 2026 ] 	Mean test loss (119 batches): 0.0473
+[ Sun May  3 06:44:30 2026 ] 	Top1: 98.00%
+[ Sun May  3 06:44:30 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.98      0.99       758
+        fall       0.92      0.99      0.95       190
+
+    accuracy                           0.98       948
+   macro avg       0.96      0.98      0.97       948
+weighted avg       0.98      0.98      0.98       948
+
+[ Sun May  3 06:44:30 2026 ] 	Balanced Accuracy: 98.35%
+[ Sun May  3 06:44:30 2026 ] 	Sensitivity (Fall Recall)    : 98.95%
+[ Sun May  3 06:44:30 2026 ] 	Specificity (Non-Fall Recall): 97.76%
+[ Sun May  3 06:44:30 2026 ] 	TP= 188  TN= 741  FP=  17  FN=   2
+[ Sun May  3 06:44:30 2026 ] 	AUC-ROC: 0.9987
+[ Sun May  3 06:44:30 2026 ] Training epoch: 90
+[ Sun May  3 06:45:37 2026 ] 	Mean training loss: 0.0741.  Mean training acc: 97.82%.
+[ Sun May  3 06:45:37 2026 ] 	Time consumption: [Data]01%, [Network]99%
+[ Sun May  3 06:45:37 2026 ] Eval epoch: 90
+[ Sun May  3 06:45:59 2026 ] 	Mean test loss (119 batches): 0.0876
+[ Sun May  3 06:45:59 2026 ] 	Top1: 97.05%
+[ Sun May  3 06:45:59 2026 ] 
+  Classification Report (test):
+              precision    recall  f1-score   support
+
+    non-fall       1.00      0.96      0.98       758
+        fall       0.87      1.00      0.93       190
+
+    accuracy                           0.97       948
+   macro avg       0.94      0.98      0.96       948
+weighted avg       0.97      0.97      0.97       948
+
+[ Sun May  3 06:45:59 2026 ] 	Balanced Accuracy: 98.15%
+[ Sun May  3 06:45:59 2026 ] 	Sensitivity (Fall Recall)    : 100.00%
+[ Sun May  3 06:45:59 2026 ] 	Specificity (Non-Fall Recall): 96.31%
+[ Sun May  3 06:45:59 2026 ] 	TP= 190  TN= 730  FP=  28  FN=   0
+[ Sun May  3 06:45:59 2026 ] 	AUC-ROC: 0.9993
+[ Sun May  3 06:46:21 2026 ] Best accuracy: 0.9821  (epoch 82)
+[ Sun May  3 06:46:21 2026 ] Best F1      : 0.9570  (epoch 82)
+[ Sun May  3 06:46:21 2026 ] Work dir     : work_dir/fall_ntu25_balanced
+[ Sun May  3 06:46:21 2026 ] Params       : 1351474
+[ Sun May  3 06:46:21 2026 ] Weight decay : 0.0004
+[ Sun May  3 06:46:21 2026 ] Base LR      : 0.1
+[ Sun May  3 06:46:21 2026 ] Batch size   : 8
+[ Sun May  3 06:46:21 2026 ] Seed         : 42
