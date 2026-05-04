@@ -35,12 +35,19 @@ import yaml
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
-# ── Default path — sesuaikan jika perlu ───────────────────────────────────────
-DEFAULT_WEIGHTS = "../weights/10/runs-23-3289.pt"
-DEFAULT_CONFIG  = "../config/fall-detection/balanced.yaml"
-DEFAULT_DATA    = "../dataset/ntu_data/balanced/joint/val_data.npy"
-DEFAULT_LABELS  = "../dataset/ntu_data/balanced/joint/val_label.pkl"
-DEFAULT_OUT     = "../hasil_test_final_v10.txt"
+# ── Default path BALANCED — sesuaikan jika perlu ───────────────────────────────────────
+DEFAULT_WEIGHTS = "../work_dir/fall_yolo17_balanced/runs-35-6265.pt"
+DEFAULT_CONFIG  = "../config/fall-detection-yolo/balanced.yaml"
+DEFAULT_DATA    = "../dataset/yolo17_data/balanced/joint/val_data.npy"
+DEFAULT_LABELS  = "../dataset/yolo17_data/balanced/joint/val_label.pkl"
+DEFAULT_OUT     = "../hasil_test_final_v13(1).txt"
+
+# # ── Default path FULL — sesuaikan jika perlu ───────────────────────────────────────
+# DEFAULT_WEIGHTS = "../weights/12/runs-9-3312.pt"
+# DEFAULT_CONFIG  = "../config/fall-detection/full.yaml"
+# DEFAULT_DATA    = "../dataset/ntu_data/full/joint/val_data.npy"
+# DEFAULT_LABELS  = "../dataset/ntu_data/full/joint/val_label.pkl"
+# DEFAULT_OUT     = "../hasil_test_final_v12.txt"
 
 LABEL_NAMES = {0: "not_fall", 1: "fall"}
 
