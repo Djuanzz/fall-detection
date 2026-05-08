@@ -55,7 +55,7 @@ train_feeder_args:
   data_path: dataset/ntu25_data/balanced/motion/train_data.npy
   label_path: dataset/ntu25_data/balanced/motion/train_label.pkl
   split: train
-  window_size: 150
+  window_size: 64
   p_interval: [0.5, 1.0]
   random_move: True
   random_shift: True
@@ -69,7 +69,7 @@ test_feeder_args:
   data_path: dataset/ntu25_data/balanced/motion/val_data.npy
   label_path: dataset/ntu25_data/balanced/motion/val_label.pkl
   split: val
-  window_size: 150
+  window_size: 64
   p_interval: [1.0, 1.0]
   random_move: False
   random_shift: False
@@ -80,3 +80,4 @@ test_feeder_args:
   use_mmap: False
 
 alpha: False
+

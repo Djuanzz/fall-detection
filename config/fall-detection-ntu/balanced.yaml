@@ -66,7 +66,7 @@ train_feeder_args:
   data_path: dataset/ntu25_data/balanced/joint/train_data.npy
   label_path: dataset/ntu25_data/balanced/joint/train_label.pkl
   split: train
-  window_size: 150
+  window_size: 64
   p_interval: [0.5, 1.0]
   random_move: True # 3D rotation (yaw/pitch/roll)
   random_shift: True # random translation
@@ -81,7 +81,7 @@ test_feeder_args:
   data_path: dataset/ntu25_data/balanced/joint/val_data.npy
   label_path: dataset/ntu25_data/balanced/joint/val_label.pkl
   split: val
-  window_size: 150
+  window_size: 64
   p_interval: [1.0, 1.0]
   random_move: False
   random_shift: False

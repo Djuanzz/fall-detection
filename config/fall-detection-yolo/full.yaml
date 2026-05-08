@@ -14,8 +14,8 @@ device: [0]
 
 model: model.BlockGCN.Model
 model_args:
-  num_class:  2
-  num_point:  17
+  num_class: 2
+  num_point: 17
   num_person: 1
   graph: graph.yolo.Graph
   graph_args:
@@ -58,31 +58,32 @@ feeder: feeders.feeder_yolo.Feeder
 num_worker: 0
 
 train_feeder_args:
-  data_path:  dataset/yolo17_data/full/joint/train_data.npy
+  data_path: dataset/yolo17_data/full/joint/train_data.npy
   label_path: dataset/yolo17_data/full/joint/train_label.pkl
   split: train
-  window_size: 150
+  window_size: 64
   p_interval: [0.5, 1.0]
-  random_move:  True
+  random_move: True
   random_shift: True
-  random_flip:  True
+  random_flip: True
   random_speed: True
   normalization: False
   debug: False
   use_mmap: False
 
 test_feeder_args:
-  data_path:  dataset/yolo17_data/full/joint/val_data.npy
+  data_path: dataset/yolo17_data/full/joint/val_data.npy
   label_path: dataset/yolo17_data/full/joint/val_label.pkl
   split: val
-  window_size: 150
+  window_size: 64
   p_interval: [1.0, 1.0]
-  random_move:  False
+  random_move: False
   random_shift: False
-  random_flip:  False
+  random_flip: False
   random_speed: False
   normalization: False
   debug: False
   use_mmap: False
 
 alpha: False
+

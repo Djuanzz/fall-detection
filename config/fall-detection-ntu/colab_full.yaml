@@ -78,7 +78,7 @@ train_feeder_args:
   data_path: /content/drive/MyDrive/Fall-Detection/dataset/ntu25_data/full/joint/train_data.npy
   label_path: /content/drive/MyDrive/Fall-Detection/dataset/ntu25_data/full/joint/train_label.pkl
   split: train
-  window_size: 150
+  window_size: 64
   p_interval: [0.5, 1.0]
   random_move: True
   random_shift: True
@@ -93,7 +93,7 @@ test_feeder_args:
   data_path: /content/drive/MyDrive/Fall-Detection/dataset/ntu25_data/full/joint/val_data.npy
   label_path: /content/drive/MyDrive/Fall-Detection/dataset/ntu25_data/full/joint/val_label.pkl
   split: val
-  window_size: 150
+  window_size: 64
   p_interval: [1.0, 1.0]
   random_move: False
   random_shift: False
@@ -105,3 +105,4 @@ test_feeder_args:
   use_mmap: True
 
 alpha: False
+
