@@ -41,28 +41,29 @@ model_args:
   drop_out: 0.3
   adaptive: True
   alpha: False
+  window_size: 64
 
 weights: null
 ignore_weights: []
 
 loss: CrossEntropyLoss
-loss_args:
+loss_args: {}
   # UPDATE nilai ini dari dataset/ntu25_data/full/joint/dataset_info.json
-  weight: [1.0, 4.0]
+  # weight: [1.0, 4.0]
 
 optimizer: SGD
-base_lr: 0.1
+base_lr: 0.01
 momentum: 0.9
 nesterov: True
 weight_decay: 0.0004
 lr_decay_rate: 0.1
-step: [50, 70]
+step: [110, 120]
 warm_up_epoch: 5
 
-num_epoch: 90
+num_epoch: 140
 start_epoch: 0
-batch_size: 8
-test_batch_size: 8
+batch_size: 16
+test_batch_size: 16
 
 log_interval: 20
 save_interval: 1
@@ -105,4 +106,3 @@ test_feeder_args:
   use_mmap: True
 
 alpha: False
-
