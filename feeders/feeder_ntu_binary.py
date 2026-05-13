@@ -48,7 +48,7 @@ class Feeder(Dataset):
         data_path,
         label_path,
         split         = "train",
-        window_size   = 150,
+        window_size   = 64,
         p_interval    = None,
         random_move   = False,   # random 3D rotation (penting untuk NTU)
         random_shift  = False,   # random global translation
