@@ -351,7 +351,7 @@ class Model(nn.Module):
     def __init__(self, num_class=2, num_point=17, num_person=1,
                  graph=None, graph_args=dict(), in_channels=3,
                  drop_out=0, adaptive=True, num_set=3, alpha=False,
-                 window_size=30, **kwargs):
+                 window_size=64, **kwargs):
         super(Model, self).__init__()
 
         if graph is None:
