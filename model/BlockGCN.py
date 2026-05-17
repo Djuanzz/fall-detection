@@ -253,6 +253,28 @@ class unit_gcn(nn.Module):
         return y
 
 
+# ── Attention Module ─────────────────────────────────────────────────────────────
+
+class SELayer(nn.Module):
+    def __init__(self, channel, reduction=16):
+        super(SELayer, self).__init__()
+        # Squeeze: Global Average Pooling meringkas informasi Spasial & Temporal
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
+        # Excitation: Belajar bobot kepentingan antar channel
+        self.fc = nn.Sequential(
+            nn.Linear(channel, channel // reduction, bias=False),
+            nn.ReLU(inplace=True),
+            nn.Linear(channel // reduction, channel, bias=False),
+            nn.Sigmoid()
+        )
+
+    def forward(self, x):
+        b, c, _, _ = x.size()
+        y = self.avg_pool(x).view(b, c)
+        y = self.fc(y).view(b, c, 1, 1)
+        return x * y.expand_as(x)
+
+
 class TCN_GCN_unit(nn.Module):
     def __init__(self, in_channels, out_channels, A, stride=1, residual=True,
                  adaptive=True, kernel_size=5, dilations=[1, 2],
@@ -265,6 +287,8 @@ class TCN_GCN_unit(nn.Module):
             kernel_size=kernel_size, stride=stride,
             dilations=dilations, residual=False
         )
+        # Inisialisasi Channel Attention (SE)
+        self.se = SELayer(out_channels)
         self.relu = nn.ReLU(inplace=True)
 
         if not residual:
@@ -277,7 +301,11 @@ class TCN_GCN_unit(nn.Module):
 
     def forward(self, x):
         res = self.residual(x) if self.residual is not None else 0
-        return self.relu(self.tcn1(self.gcn1(x)) + res)
+        # Flow: GCN -> TCN -> Attention
+        x = self.gcn1(x)
+        x = self.tcn1(x)
+        x = self.se(x) 
+        return self.relu(x + res)
 
 
 # ── Topological Encoding ───────────────────────────────────────────────────────
