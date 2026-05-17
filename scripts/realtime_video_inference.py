@@ -8,9 +8,11 @@ Pipeline:
     setiap STEP_SIZE frame → BlockGCN → tampilkan prediksi
 
 Cara pakai (dari folder scripts/):
-    python realtime_fall_detection.py --video path/ke/video.mp4
-    python realtime_fall_detection.py --video video.mp4 --threshold 0.4 --step 10
-    python realtime_fall_detection.py --video video.mp4 --no-loop
+    python realtime_video_inference.py --video path/ke/video.mp4
+    python realtime_video_inference.py --video video.mp4 --threshold 0.4 --step 10
+    
+    python realtime_video_inference.py --video ../dataset/urfd_videos/merged_output.mp4 --device cuda:0 --max-speed
+    python realtime_video_inference.py --video ../dataset/ntu_videos/merged_output.mp4 --device cuda:0 --max-speed
 
 Kontrol keyboard:
     q = keluar
@@ -22,10 +24,7 @@ Kontrol keyboard:
 import argparse
 import collections
 import importlib
-import os
-import pickle
 import sys
-import tempfile
 import time
 from pathlib import Path
 
@@ -38,19 +37,21 @@ import yaml
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
-# # ── Default konfigurasi BALANCED ────────────────────────────────────────────────────────
-DEFAULT_WEIGHTS   = "../work_dir/fall_yolo17_balanced/runs-35-6265.pt"
+# # ── Default konfigurasi FULL ────────────────────────────────────────────────────────
+# DEFAULT_WEIGHTS   = "../weights/32_(17ful)/runs-9-2061.pt"
+# DEFAULT_CONFIG    = "../config/fall-detection-yolo/full.yaml"
+
+# ── Default konfigurasi BALANCED  ────────────────────────────────────────────────────────
+DEFAULT_WEIGHTS   = "../weights/28_(17bal)/runs-20-1780.pt"
 DEFAULT_CONFIG    = "../config/fall-detection-yolo/balanced.yaml"
 
-# ── Default konfigurasi FULL ────────────────────────────────────────────────────────
-# DEFAULT_WEIGHTS   = "../weights/12/runs-9-3312.pt"
-# DEFAULT_CONFIG    = "../config/fall-detection/full.yaml"
 DEFAULT_YOLO      = "yolo11n-pose.pt"
 DEFAULT_THRESHOLD = 0.5
 DEFAULT_WINDOW    = 30       # frame yang dilihat model sekaligus
 DEFAULT_STEP      = 15       # prediksi update setiap N frame baru
-DEFAULT_MAX_W     = 1280      # lebar display
+DEFAULT_MAX_W     = 1280     # lebar display
 DEFAULT_MAX_H     = 720      # tinggi display
+DEFAULT_YOLO_IMGSZ = 640     # resolusi input YOLO; kecil = lebih cepat
 
 NUM_JOINTS = 17
 
@@ -119,47 +120,31 @@ def normalize_skeleton_sequence(buffer_np):
     return sk
 
 
-# ── Inference via Feeder ───────────────────────────────────────────────────────
+# ── Inference BlockGCN ─────────────────────────────────────────────────────────
 
 def run_inference(model, cfg, skeleton_window, device, threshold):
     """
     Jalankan inference pada satu window skeleton (T, 17, 3).
-    Lewat Feeder untuk preprocessing yang konsisten.
+    Preprocessing dibuat in-memory agar tidak perlu tulis/baca tempfile.
 
     Return: (pred, prob_fall, prob_not_fall)
     """
-    sk  = skeleton_window.astype(np.float32)
-    arr = sk.transpose(2, 0, 1)[np.newaxis, :, :, :, np.newaxis]
+    window_size = cfg["test_feeder_args"]["window_size"]
 
-    tmp    = Path(tempfile.mkdtemp())
-    f_data = str(tmp / "d.npy")
-    f_lbl  = str(tmp / "l.pkl")
-    np.save(f_data, arr)
-    with open(f_lbl, "wb") as f:
-        pickle.dump((["rt"], [0]), f)
+    sk = skeleton_window.astype(np.float32)
+    x  = sk.transpose(2, 0, 1)[:, :, :, np.newaxis]  # (C, T, V, M)
 
-    try:
-        Feeder      = import_class(cfg["feeder"])
-        feeder_args = dict(cfg["test_feeder_args"])
-        feeder_args.update({
-            "data_path":    f_data,
-            "label_path":   f_lbl,
-            "split":        "val",
-            "use_mmap":     False,
-            "random_move":  False,
-            "random_shift": False,
-            "random_flip":  False,
-            "random_speed": False,
-        })
-        dataset = Feeder(**feeder_args)
-        x, _    = dataset[0]
-    finally:
-        os.remove(f_data)
-        os.remove(f_lbl)
-        tmp.rmdir()
+    conf  = x[2, :, :, 0]
+    valid = int((conf > 0).any(axis=1).sum())
+    valid = max(valid, 1)
 
-    x = x.unsqueeze(0).float().to(device)
-    with torch.no_grad():
+    seg = x[:, :valid, :, :]
+    if seg.shape[1] != window_size:
+        idx = np.linspace(0, seg.shape[1] - 1, window_size, dtype=int)
+        seg = seg[:, idx, :, :]
+
+    x = torch.from_numpy(seg[np.newaxis]).float().to(device, non_blocking=True)
+    with torch.inference_mode():
         logits = model(x)
         probs  = torch.softmax(logits, dim=1)[0]
 
@@ -268,11 +253,6 @@ def draw_status_panel(frame, pred, p_fall, p_not_fall,
         cv2.putText(frame, line, (w - 140, 25 + i * 22),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLOR_WHITE, 1)
 
-    # # Instruksi keyboard
-    # cv2.putText(frame, "q=keluar  s=screenshot  r=reset  SPACE=pause",
-    #             (10, h - 6),
-    #             cv2.FONT_HERSHEY_SIMPLEX, 0.38, COLOR_GRAY, 1)
-
     return frame
 
 
@@ -293,6 +273,12 @@ def main():
     ap.add_argument("--step",      type=int,   default=DEFAULT_STEP,
                     help="Update prediksi setiap N frame (default 15)")
     ap.add_argument("--device",    default="cuda:0")
+    ap.add_argument("--imgsz",     type=int,   default=DEFAULT_YOLO_IMGSZ,
+                    help="Resolusi input YOLO. Turunkan untuk FPS lebih tinggi.")
+    ap.add_argument("--no-half",   action="store_true",
+                    help="Matikan FP16 YOLO di CUDA.")
+    ap.add_argument("--max-speed", action="store_true",
+                    help="Jalankan video secepat proses inference, tanpa cap FPS asli video.")
     ap.add_argument("--width",     type=int,   default=DEFAULT_MAX_W)
     ap.add_argument("--height",    type=int,   default=DEFAULT_MAX_H)
     ap.add_argument("--no-loop",   action="store_true",
@@ -302,6 +288,15 @@ def main():
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         print("[WARN] CUDA tidak tersedia, pakai CPU (lebih lambat)")
         args.device = "cpu"
+
+    use_cuda = args.device.startswith("cuda")
+    yolo_half = use_cuda and not args.no_half
+    if use_cuda:
+        torch.backends.cudnn.benchmark = True
+        try:
+            torch.set_float32_matmul_precision("high")
+        except Exception:
+            pass
 
     # ── Validasi file video ────────────────────────────────────────────────────
     video_path = Path(args.video)
@@ -314,6 +309,7 @@ def main():
     try:
         from ultralytics import YOLO
         yolo = YOLO(args.yolo)
+        yolo.to(args.device)
     except ImportError:
         print("ERROR: pip install ultralytics")
         sys.exit(1)
@@ -347,8 +343,11 @@ def main():
     print(f"  Window size : {args.window} frame")
     print(f"  Step size   : {args.step} frame")
     print(f"  Threshold   : {args.threshold}")
+    print(f"  Device      : {args.device}")
+    print(f"  YOLO imgsz  : {args.imgsz}")
+    print(f"  YOLO FP16   : {'Ya' if yolo_half else 'Tidak'}")
+    print(f"  Max speed   : {'Ya' if args.max_speed else 'Tidak'}")
     print(f"  Loop video  : {'Tidak' if args.no_loop else 'Ya'}")
-    # print(f"\nTekan 'q' keluar | 's' screenshot | 'r' reset buffer | SPACE pause")
     print("Mulai...\n")
 
     # ── State variabel ─────────────────────────────────────────────────────────
@@ -366,7 +365,10 @@ def main():
 
     # Delay antar frame agar playback tidak terlalu cepat
     # Minimal 1ms, sesuaikan dengan FPS asli video
-    frame_delay = max(1, int(1000 / video_fps)) if video_fps > 0 else 30
+    if args.max_speed:
+        frame_delay = 1
+    else:
+        frame_delay = max(1, int(1000 / video_fps)) if video_fps > 0 else 30
 
     # ── Loop utama ─────────────────────────────────────────────────────────────
     while True:
@@ -416,7 +418,13 @@ def main():
         kf_xy   = np.zeros((NUM_JOINTS, 2), np.float32)
         kf_conf = np.zeros(NUM_JOINTS,      np.float32)
 
-        results = yolo(frame, verbose=False)
+        results = yolo.predict(
+            frame,
+            verbose=False,
+            device=args.device,
+            half=yolo_half,
+            imgsz=args.imgsz,
+        )
         person_detected = False
 
         if results and results[0].keypoints is not None:
@@ -470,7 +478,7 @@ def main():
             paused       = paused,
         )
 
-        # ── Resize frame agar tidak kepotong ───────────────────────────────────
+        # ── Resize frame agar tidak kepotong (Display only) ────────────────────
         h, w = frame.shape[:2]
 
         scale = min(args.width / w, args.height / h)
