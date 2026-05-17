@@ -94,4 +94,3 @@ test_feeder_args:
   use_mmap: False
 
 alpha: False
-
