@@ -1,16 +1,8 @@
 """
-model/BlockGCN.py  — Fall Detection (BlockGCN, adapted for YOLO 17-joint skeleton)
-=====================================================================================
-Architecture follows BlockGCN paper:
-  - 10 TCN-GCN blocks with multi-scale temporal convolution
-  - Relative positional encoding via k-hop distance in GCN
-  - Topological features (persistent homology) fused into every block
-Adaptations for fall detection:
-  - num_person = 1  (single person, YOLO11n-pose)
-  - num_point  = 17 (COCO keypoints)
-  - num_class  = 2  (fall / not_fall)
-  - Joint embedding (Linear 3→128) + positional encoding before GCN blocks
-    data_bn applied after embedding → size = num_person * 128 * num_point
+model/BlockGCN.py  — BlockGCN base model
+=========================================
+Fall detection dengan topological features (VietorisRipsComplex, persistent homology).
+10 TCN-GCN blocks, multi-scale temporal conv, k-hop relative positional encoding.
 """
 
 import math
@@ -277,7 +269,9 @@ class TCN_GCN_unit(nn.Module):
 
     def forward(self, x):
         res = self.residual(x) if self.residual is not None else 0
-        return self.relu(self.tcn1(self.gcn1(x)) + res)
+        x = self.gcn1(x)
+        x = self.tcn1(x)
+        return self.relu(x + res)
 
 
 # ── Topological Encoding ───────────────────────────────────────────────────────
