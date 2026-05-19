@@ -77,7 +77,7 @@ train_feeder_args:
   random_flip: True
   random_speed: True
   random_noise: False
-  normalization: False
+  normalization: True
   debug: False
   use_mmap: True
 
@@ -92,7 +92,7 @@ test_feeder_args:
   random_flip: False
   random_speed: False
   random_noise: False
-  normalization: False
+  normalization: True
   debug: False
   use_mmap: True
 
