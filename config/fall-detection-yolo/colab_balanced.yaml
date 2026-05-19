@@ -53,8 +53,8 @@ warm_up_epoch: 5
 
 num_epoch: 140
 start_epoch: 0
-batch_size: 16
-test_batch_size: 16
+batch_size: 8
+test_batch_size: 8
 
 log_interval: 20
 save_interval: 1
@@ -97,4 +97,3 @@ test_feeder_args:
   use_mmap: True
 
 alpha: False
-
