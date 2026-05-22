@@ -253,8 +253,10 @@ class Processor():
         self.lr = self.arg.base_lr
         self.best_acc = 0
         self.best_acc_epoch = 0
-        self.best_f1       = 0.0
-        self.best_f1_epoch = 0
+        self.best_f1        = 0.0
+        self.best_f1_epoch  = 0
+        self.best_bal_acc   = 0.0
+        self.best_bal_acc_epoch = 0
 
         if self.use_cuda:
             self.model = self.model.cuda(self.output_device)
@@ -510,7 +512,8 @@ class Processor():
 
         self.model.eval()
         self.print_log('Eval epoch: {}'.format(epoch + 1))
-        best_f1_this_eval = 0.0
+        best_f1_this_eval      = 0.0
+        best_bal_acc_this_eval = 0.0
 
         for ln in loader_name:
             loss_value  = []
@@ -593,6 +596,7 @@ class Processor():
                 best_f1_this_eval = max(best_f1_this_eval, f1)
 
                 bal_acc = balanced_accuracy_score(label_list, pred_list)
+                best_bal_acc_this_eval = max(best_bal_acc_this_eval, bal_acc)
                 score_prob = score[:, 1]  # probabilitas kelas fall
                 try:
                     auc = roc_auc_score(label_list, score_prob)
@@ -623,7 +627,7 @@ class Processor():
             f_w.close()
         if f_r is not None:
             f_r.close()
-        return best_f1_this_eval
+        return best_f1_this_eval, best_bal_acc_this_eval
 
     # ── Start ──────────────────────────────────────────────────────────────────
 
@@ -644,16 +648,19 @@ class Processor():
                 ) and (epoch + 1) > self.arg.save_epoch
 
                 self.train(epoch, save_model=save_model)
-                epoch_f1 = self.eval(epoch,
-                                     save_score=self.arg.save_score,
-                                     loader_name=['test'])
+                epoch_f1, epoch_bal_acc = self.eval(epoch,
+                                                     save_score=self.arg.save_score,
+                                                     loader_name=['test'])
                 if epoch_f1 > self.best_f1:
                     self.best_f1       = epoch_f1
                     self.best_f1_epoch = epoch + 1
+                if epoch_bal_acc > self.best_bal_acc:
+                    self.best_bal_acc       = epoch_bal_acc
+                    self.best_bal_acc_epoch = epoch + 1
 
-                # Selalu simpan kalau ini best accuracy baru,
+                # Simpan kalau ini best balanced accuracy baru,
                 # meskipun belum melewati save_epoch threshold.
-                if self.best_acc_epoch == (epoch + 1) and not save_model:
+                if self.best_bal_acc_epoch == (epoch + 1) and not save_model:
                     state_dict = self.model.state_dict()
                     weights = OrderedDict([
                         [k.split('module.')[-1], v.cpu()]
@@ -665,7 +672,7 @@ class Processor():
 
             pattern = os.path.join(
                 self.arg.work_dir,
-                'runs-' + str(self.best_acc_epoch) + '*')
+                'runs-' + str(self.best_bal_acc_epoch) + '*')
             best_files = glob.glob(pattern)
             if best_files:
                 weights_path = best_files[0]
@@ -688,6 +695,8 @@ class Processor():
                           wrong_file=wf, result_file=rf)
                 self.arg.print_log = True
 
+            self.print_log('Best Bal Acc : {:.4f}  (epoch {})'.format(
+                self.best_bal_acc, self.best_bal_acc_epoch))
             self.print_log('Best accuracy: {:.4f}  (epoch {})'.format(
                 self.best_acc, self.best_acc_epoch))
             self.print_log('Best F1      : {:.4f}  (epoch {})'.format(
