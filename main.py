@@ -599,10 +599,6 @@ class Processor():
                 except ValueError:
                     auc = float('nan')
 
-                report = classification_report(
-                    label_list, pred_list,
-                    target_names=['non-fall', 'fall'], digits=2)
-                self.print_log('\n  Classification Report ({}):\n{}'.format(ln, report))
                 self.print_log('\tBalanced Accuracy: {:.2f}%'.format(bal_acc * 100))
                 self.print_log('\tSensitivity (Fall Recall)    : {:.2f}%'.format(rec  * 100))
                 self.print_log('\tSpecificity (Non-Fall Recall): {:.2f}%'.format(spec * 100))
