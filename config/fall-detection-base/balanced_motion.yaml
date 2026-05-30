@@ -1,10 +1,7 @@
-# config/fall-detection-yolo/full.yaml
-# Fall Detection — BlockGCN — YOLO11n-pose 17-Joint — Versi FULL
-#
-# UPDATE loss_args.weight dari dataset/yolo17_data/full/joint/dataset_info.json
-# Field: "class_weight_for_config"
+# config/fall-detection-ntu/balanced_motion.yaml
+# Sama seperti balanced.yaml tapi menggunakan modality MOTION (velocity)
 
-work_dir: work_dir/fall_yolo17_full
+work_dir: work_dir/fall_ntu25_balanced_motion
 phase: train
 seed: 42
 print_log: True
@@ -15,9 +12,9 @@ device: [0]
 model: model.BlockGCN.Model
 model_args:
   num_class: 2
-  num_point: 17
+  num_point: 25
   num_person: 1
-  graph: graph.yolo.Graph
+  graph: graph.ntu_rgb_d.Graph
   graph_args:
     labeling_mode: spatial
   in_channels: 3
@@ -30,8 +27,7 @@ weights: null
 ignore_weights: []
 
 loss: CrossEntropyLoss
-loss_args:
-  weight: [1.0, 4.15]
+loss_args: {}
 
 optimizer: SGD
 base_lr: 0.01
@@ -53,12 +49,12 @@ save_epoch: 30
 eval_interval: 1
 show_topk: [1]
 
-feeder: feeders.feeder_yolo.Feeder
+feeder: feeders.feeder_ntu_binary.Feeder
 num_worker: 0
 
 train_feeder_args:
-  data_path: dataset/yolo17_data/full/joint/train_data.npy
-  label_path: dataset/yolo17_data/full/joint/train_label.pkl
+  data_path: dataset/ntu25_data/balanced/motion/train_data.npy
+  label_path: dataset/ntu25_data/balanced/motion/train_label.pkl
   split: train
   window_size: 64
   p_interval: [0.5, 1.0]
@@ -71,8 +67,8 @@ train_feeder_args:
   use_mmap: False
 
 test_feeder_args:
-  data_path: dataset/yolo17_data/full/joint/val_data.npy
-  label_path: dataset/yolo17_data/full/joint/val_label.pkl
+  data_path: dataset/ntu25_data/balanced/motion/val_data.npy
+  label_path: dataset/ntu25_data/balanced/motion/val_label.pkl
   split: val
   window_size: 64
   p_interval: [1.0, 1.0]
@@ -85,3 +81,4 @@ test_feeder_args:
   use_mmap: False
 
 alpha: False
+

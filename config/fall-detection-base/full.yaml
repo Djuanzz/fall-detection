@@ -1,10 +1,16 @@
-# config/fall-detection-yolo/full.yaml
-# Fall Detection — BlockGCN — YOLO11n-pose 17-Joint — Versi FULL
+# config/fall-detection-ntu/full.yaml
+# Fall Detection — BlockGCN — NTU RGB+D 25-Joint — Versi FULL
 #
-# UPDATE loss_args.weight dari dataset/yolo17_data/full/joint/dataset_info.json
-# Field: "class_weight_for_config"
+# Dataset: NTU RGB+D .skeleton → 25 joint, 2 kelas (fall / not-fall)
+# Menggunakan SEMUA sampel + class weight untuk menangani imbalance.
+#
+# PENTING: Set loss_args.weight sesuai nilai pos_weight dari dataset_info.json
+#   Contoh: jika pos_weight=4.2 → weight: [1.0, 4.2]
+#
+# Train: python main.py --config config/fall-detection-ntu/full.yaml \
+#                       --work-dir work_dir/fall_ntu25_full --device 0
 
-work_dir: work_dir/fall_yolo17_full
+work_dir: work_dir/fall_ntu25_full
 phase: train
 seed: 42
 print_log: True
@@ -12,10 +18,10 @@ save_score: True
 
 device: [0]
 
-model: model.BlockGCN.Model
+model: model.BlockGCN_Base.Model
 model_args:
   num_class: 2
-  num_point: 17
+  num_point: 25
   num_person: 1
   graph: graph.yolo.Graph
   graph_args:
@@ -31,7 +37,9 @@ ignore_weights: []
 
 loss: CrossEntropyLoss
 loss_args:
-  weight: [1.0, 4.15]
+  # UPDATE nilai ini dari dataset/yolo17_data/full/joint/dataset_info.json
+  # Lihat field "class_weight_for_config"
+  weight: [1.0, 4.0]
 
 optimizer: SGD
 base_lr: 0.01
@@ -66,6 +74,7 @@ train_feeder_args:
   random_shift: True
   random_flip: True
   random_speed: True
+  random_noise: False
   normalization: False
   debug: False
   use_mmap: False
@@ -80,8 +89,10 @@ test_feeder_args:
   random_shift: False
   random_flip: False
   random_speed: False
+  random_noise: False
   normalization: False
   debug: False
   use_mmap: False
 
 alpha: False
+

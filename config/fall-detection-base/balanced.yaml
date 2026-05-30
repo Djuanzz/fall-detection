@@ -1,16 +1,18 @@
-# config/fall-detection-ntu/full.yaml
-# Fall Detection — BlockGCN — NTU RGB+D 25-Joint — Versi FULL
+# config/fall-detection-ntu/balanced.yaml
+# Fall Detection — BlockGCN — NTU RGB+D 25-Joint — Versi BALANCED
 #
 # Dataset: NTU RGB+D .skeleton → 25 joint, 2 kelas (fall / not-fall)
-# Menggunakan SEMUA sampel + class weight untuk menangani imbalance.
+#   Fall    (label 1): A043
+#   Not-fall(label 0): A008, A009, A027, A042
 #
-# PENTING: Set loss_args.weight sesuai nilai pos_weight dari dataset_info.json
-#   Contoh: jika pos_weight=4.2 → weight: [1.0, 4.2]
-#
-# Train: python main.py --config config/fall-detection-ntu/full.yaml \
-#                       --work-dir work_dir/fall_ntu25_full --device 0
+# Train: python main.py --config config/fall-detection-ntu/balanced.yaml \
+#                       --work-dir work_dir/fall_ntu25_balanced --device 0
+# Test : python main.py --config config/fall-detection-ntu/balanced.yaml \
+#                       --phase test \
+#                       --weights work_dir/fall_ntu25_balanced/runs-XX-XXXX.pt \
+#                       --work-dir work_dir/fall_ntu25_balanced
 
-work_dir: work_dir/fall_ntu25_full
+work_dir: work_dir/fall_ntu25_balanced
 phase: train
 seed: 42
 print_log: True
@@ -36,8 +38,7 @@ weights: null
 ignore_weights: []
 
 loss: CrossEntropyLoss
-loss_args:
-  weight: [1.0, 4.07]
+loss_args: {}
 
 optimizer: SGD
 base_lr: 0.01
@@ -63,23 +64,23 @@ feeder: feeders.feeder_ntu_binary.Feeder
 num_worker: 0
 
 train_feeder_args:
-  data_path: dataset/ntu25_data/full/joint/train_data.npy
-  label_path: dataset/ntu25_data/full/joint/train_label.pkl
+  data_path: dataset/yolo17_data/balanced/joint/train_data.npy
+  label_path: dataset/yolo17_data/balanced/joint/train_label.pkl
   split: train
   window_size: 64
   p_interval: [0.5, 1.0]
-  random_move: True
-  random_shift: True
-  random_flip: True
-  random_speed: True
+  random_move: True # 3D rotation (yaw/pitch/roll)
+  random_shift: True # random translation
+  random_flip: True # horizontal flip + joint swap
+  random_speed: True # temporal resampling
   random_noise: False
   normalization: False
   debug: False
   use_mmap: False
 
 test_feeder_args:
-  data_path: dataset/ntu25_data/full/joint/val_data.npy
-  label_path: dataset/ntu25_data/full/joint/val_label.pkl
+  data_path: dataset/yolo17_data/balanced/joint/val_data.npy
+  label_path: dataset/yolo17_data/balanced/joint/val_label.pkl
   split: val
   window_size: 64
   p_interval: [1.0, 1.0]
