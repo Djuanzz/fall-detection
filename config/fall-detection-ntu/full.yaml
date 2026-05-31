@@ -18,7 +18,7 @@ save_score: True
 
 device: [0]
 
-model: model.BlockGCN.Model
+model: model.BlockGCN_Base.Model
 model_args:
   num_class: 2
   num_point: 25
@@ -27,7 +27,7 @@ model_args:
   graph_args:
     labeling_mode: spatial
   in_channels: 3
-  drop_out: 0.3
+  drop_out: 0.4
   adaptive: True
   alpha: False
   window_size: 64
@@ -37,21 +37,21 @@ ignore_weights: []
 
 loss: CrossEntropyLoss
 loss_args:
-  weight: [1.0, 4.07]
+  weight: [1.0, 4.0]
 
 optimizer: SGD
 base_lr: 0.01
 momentum: 0.9
 nesterov: True
-weight_decay: 0.0004
+weight_decay: 0.001
 lr_decay_rate: 0.1
 step: [60, 70]
 warm_up_epoch: 5
 
 num_epoch: 80
 start_epoch: 0
-batch_size: 16
-test_batch_size: 16
+batch_size: 32
+test_batch_size: 32
 
 log_interval: 20
 save_interval: 1

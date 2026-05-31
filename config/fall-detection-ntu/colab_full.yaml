@@ -48,7 +48,7 @@ ignore_weights: []
 
 loss: CrossEntropyLoss
 loss_args:
-  weight: [1.0, 4.07]
+  weight: [1.0, 4.0]
 
 optimizer: SGD
 base_lr: 0.005
