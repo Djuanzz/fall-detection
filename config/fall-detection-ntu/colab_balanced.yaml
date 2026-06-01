@@ -52,7 +52,7 @@ momentum: 0.9
 nesterov: True
 weight_decay: 0.001
 lr_decay_rate: 0.1
-step: [60, 70]
+step: [20, 35]
 warm_up_epoch: 5
 
 num_epoch: 80

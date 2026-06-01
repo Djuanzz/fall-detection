@@ -38,7 +38,7 @@ model_args:
   graph_args:
     labeling_mode: spatial
   in_channels: 3
-  drop_out: 0.5
+  drop_out: 0.4
   adaptive: True
   alpha: False
   window_size: 64
@@ -51,13 +51,13 @@ loss_args:
   weight: [1.0, 4.0]
 
 optimizer: SGD
-base_lr: 0.005
+base_lr: 0.01
 momentum: 0.9
 nesterov: True
 weight_decay: 0.001
 lr_decay_rate: 0.1
-step: [60, 70]
-warm_up_epoch: 3
+step: [20, 35]
+warm_up_epoch: 5
 
 num_epoch: 80
 start_epoch: 0
@@ -66,7 +66,7 @@ test_batch_size: 32
 
 log_interval: 20
 save_interval: 1
-save_epoch: 5
+save_epoch: 15
 eval_interval: 1
 show_topk: [1]
 

@@ -12,12 +12,12 @@
 #   1. batch_size 8→32       : kurangi gradient noise, batch lebih representatif
 #   2. class weight [1,4]    : PENTING — kompensasi imbalance non-fall:fall ~4:1
 #   3. step [60,70]→[10,20]  : decay SEBELUM instabil epoch 9 (best epoch 7!)
-#   4. base_lr 0.01→0.005    : lebih konservatif karena best epoch sangat awal
+#   4. [unified] base_lr disamakan dengan balanced: 0.01
 #   5. weight_decay 4e-4→1e-3: regularisasi lebih kuat
-#   6. drop_out 0.3→0.5      : regularisasi tambahan (Base lebih rentan overfit)
+#   6. [unified] drop_out disamakan dengan balanced: 0.4
 #   7. random_noise=True      : augmentasi tambahan
 #   8. label_smoothing=0.1   : cegah logit ekstrem
-#   9. num_epoch 80→40       : best epoch 7, tidak perlu sampai 80
+#   9. [unified] num_epoch disamakan dengan balanced: 80
 #
 # Train: python main.py --config config/fall-detection-yolo/full_fixed.yaml --device 0
 
@@ -38,7 +38,7 @@ model_args:
   graph_args:
     labeling_mode: spatial
   in_channels: 3
-  drop_out: 0.5
+  drop_out: 0.4
   adaptive: True
   alpha: False
   window_size: 64
@@ -54,13 +54,13 @@ loss_args:
   weight: [1.0, 4.1]
 
 optimizer: SGD
-base_lr: 0.005
+base_lr: 0.01
 momentum: 0.9
 nesterov: True
 weight_decay: 0.001
 lr_decay_rate: 0.1
-step: [10, 20]
-warm_up_epoch: 3
+step: [20, 35]
+warm_up_epoch: 5
 
 num_epoch: 80
 start_epoch: 0
@@ -69,7 +69,7 @@ test_batch_size: 32
 
 log_interval: 20
 save_interval: 1
-save_epoch: 5
+save_epoch: 15
 eval_interval: 1
 show_topk: [1]
 

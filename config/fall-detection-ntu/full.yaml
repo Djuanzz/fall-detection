@@ -45,7 +45,7 @@ momentum: 0.9
 nesterov: True
 weight_decay: 0.001
 lr_decay_rate: 0.1
-step: [60, 70]
+step: [20, 35]
 warm_up_epoch: 5
 
 num_epoch: 80
@@ -55,7 +55,7 @@ test_batch_size: 32
 
 log_interval: 20
 save_interval: 1
-save_epoch: 30
+save_epoch: 15
 eval_interval: 1
 show_topk: [1]
 
@@ -72,7 +72,7 @@ train_feeder_args:
   random_shift: True
   random_flip: True
   random_speed: True
-  random_noise: False
+  random_noise: True
   normalization: False
   debug: False
   use_mmap: False
