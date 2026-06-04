@@ -522,6 +522,10 @@ class Processor():
             pred_list   = []
             step = 0
 
+            sample_idx  = 0
+            sample_name = getattr(self.data_loader[ln].dataset,
+                                  'sample_name', None)
+
             process = tqdm(self.data_loader[ln], ncols=40)
 
             for batch_idx, (data, label) in enumerate(process):
@@ -541,13 +545,23 @@ class Processor():
                 step += 1
 
                 if wrong_file is not None or result_file is not None:
+                    label_names = {0: 'non_fall', 1: 'fall'}
                     predict = list(predict_label.cpu().numpy())
                     true    = list(label.data.cpu().numpy())
                     for i, x in enumerate(predict):
+                        if sample_name is not None and sample_idx < len(sample_name):
+                            fname = sample_name[sample_idx]
+                        else:
+                            fname = str(sample_idx)
+                        sample_idx += 1
+                        pred_name = label_names.get(int(x), str(x))
+                        true_name = label_names.get(int(true[i]), str(true[i]))
                         if result_file is not None:
-                            f_r.write(str(x) + ',' + str(true[i]) + '\n')
+                            f_r.write('{},{},{}\n'.format(
+                                fname, pred_name, true_name))
                         if x != true[i] and wrong_file is not None:
-                            f_w.write(str(step) + ',' + str(x) + ',' + str(true[i]) + '\n')
+                            f_w.write('{},{},{}\n'.format(
+                                fname, pred_name, true_name))
 
             score = np.concatenate(score_frag)
             loss  = np.mean(loss_value)
