@@ -18,8 +18,11 @@ docs
 dataset
 dataset/ntu_data
 notebooks
+paper_shots
+weights*
 
 # =====
+.swarm
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -48,6 +51,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+CLAUDE.md
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
