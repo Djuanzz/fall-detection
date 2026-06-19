@@ -48,15 +48,15 @@ loss_args:
   weight: [1.0, 4.15]
 
 optimizer: SGD
-base_lr: 0.05
+base_lr: 0.005
 momentum: 0.9
 nesterov: True
-weight_decay: 0.0004
+weight_decay: 0.001
 lr_decay_rate: 0.1
-step: [110, 120]
-warm_up_epoch: 5
+step: [10, 20]
+warm_up_epoch: 3
 
-num_epoch: 140
+num_epoch: 80
 start_epoch: 0
 batch_size: 32
 test_batch_size: 32
